@@ -1,0 +1,5235 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <title>Formularz RHS</title>
+	<meta name="description" content="Wirtualny formularz RHS pozwalający na obliczenie wskaźników HMS oraz HQA" />
+	<meta name="keywords" content="woda, rzeka, jezioro, RHS, formularz, hydromorfologiczna ocena stanu rzek, czystość wody, wskaźnik, HQA, HMS" />
+    <link rel="stylesheet" href="style.css" type="text/css"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
+
+<!-- 3 skrypty JS obliczające HMS HQA i klase jakości wód -->
+<script type="text/javascript">
+
+function HQA()
+{
+	var HQA = 0;
+
+	//USTALANIE ZMIENNYCH
+
+	//A. Typy przepływu
+	var HQA_A=0;
+
+	var E41 = document.getElementById("E41").value;
+	var E42 = document.getElementById("E42").value;
+	var E43 = document.getElementById("E43").value;
+	var E44 = document.getElementById("E44").value;
+	var E45 = document.getElementById("E45").value;
+	var E46 = document.getElementById("E46").value;
+	var E47 = document.getElementById("E47").value;
+	var E48 = document.getElementById("E48").value;
+	var E49 = document.getElementById("E49").value;
+	var E50 = document.getElementById("E50").value;
+	var TP_poza = document.getElementById("TP_poza").value;
+
+	//swobodny spadek SP przelewowy PE kipiel KP rwący RW wartki WA wznoszący WZ gładki GA niedostrzegalny ND
+	var SP = 0;
+	var PE = 0;
+	var KP = 0;
+	var RW = 0;
+	var WA = 0;
+	var WZ = 0;
+	var GA = 0;
+	var ND = 0;
+	var E41_E50 = [E41, E42, E43, E44, E45, E46, E47, E48, E49, E50]
+	for (i = 0; i < 10; i++)
+	{
+		if (E41_E50[i].includes("SP"))
+		{
+		SP = SP+1
+		}
+		else if (E41_E50[i].includes("PE"))
+		{
+		PE = PE+1
+		}
+		else if (E41_E50[i].includes("KP"))
+		{
+		KP = KP+1
+		}
+		else if (E41_E50[i].includes("RW"))
+		{
+		RW = RW+1
+		}
+		else if (E41_E50[i].includes("WA"))
+		{
+		WA = WA+1
+		}
+		else if (E41_E50[i].includes("WZ"))
+		{
+		WZ = WZ+1
+		}
+		else if (E41_E50[i].includes("GA"))
+		{
+		GA = GA+1
+		}
+		else if (E41_E50[i].includes("ND"))
+		{
+		ND = ND+1
+		}
+	}
+
+	var tp = [SP, PE, KP, RW, WA, WZ, GA, ND]
+
+	for (i = 0; i < 8; i++)
+	{
+		if (tp[i]==1)
+		{
+		HQA_A = HQA_A+1
+		}
+		else if (tp[i]==2 || tp[i]==3)
+		{
+		HQA_A = HQA_A+2
+		}
+		else if (tp[i]==4 || tp[i]>4)
+		{
+		HQA_A = HQA_A+3
+		}
+	}
+	
+	var tp_ciagi = ['SP', 'PE', 'KP', 'RW', 'WA', 'WZ', 'GA', 'ND']
+	
+	for (i = 0; i < 8; i++)
+	{
+		if (TP_poza.includes(tp_ciagi[i]) && tp[i]==0)
+		{
+		HQA_A = HQA_A+1
+		}
+	}
+	
+	//B. Materiał dna koryta
+
+	var HQA_B=0;
+
+	//wychodnie skalne WS głazy GL kamienie KA kamyki/Zwir KZ piasek PI muł MU glina/ił GI torf/mursz TM
+	//NW niewidoczny
+
+	var E31 = document.getElementById("E31").value;
+	var E32 = document.getElementById("E32").value;
+	var E33 = document.getElementById("E33").value;
+	var E34 = document.getElementById("E34").value;
+	var E35 = document.getElementById("E35").value;
+	var E36 = document.getElementById("E36").value;
+	var E37 = document.getElementById("E37").value;
+	var E38 = document.getElementById("E38").value;
+	var E39 = document.getElementById("E39").value;
+	var E40 = document.getElementById("E40").value;
+
+	var WS = 0;
+	var GL = 0;
+	var KA = 0;
+	var KZ = 0;
+	var PI = 0;
+	var MU = 0;
+	var GI = 0;
+	var TM = 0;
+	var NW = 0;
+	var E31_E40 = [E31, E32, E33, E34, E35, E36, E37, E38, E39, E40]
+
+	for (i = 0; i < 10; i++)
+	{
+		if (E31_E40[i].includes("WS"))
+		{
+		WS = WS+1
+		}
+		else if (E31_E40[i].includes("GL"))
+		{
+		GL = GL+1
+		}
+		else if (E31_E40[i].includes("KA"))
+		{
+		KA = KA+1
+		}
+		else if (E31_E40[i].includes("KZ"))
+		{
+		KZ = KZ+1
+		}
+		else if (E31_E40[i].includes("KZ"))
+		{
+		KZ = KZ+1
+		}
+		else if (E31_E40[i].includes("PI"))
+		{
+		PI = PI+1
+		}
+		else if (E31_E40[i].includes("MU"))
+		{
+		MU = MU+1
+		}
+		else if (E31_E40[i].includes("GI"))
+		{
+		GI = GI+1
+		}
+		else if (E31_E40[i].includes("TM"))
+		{
+		TM = TM+1
+		}
+		else if (E31_E40[i].includes("NW"))
+		{
+		NW = NW+1
+		}
+	}
+		
+	var mdk = [WS,GL,KA,KZ,PI,MU,GI,TM]
+
+	for (i = 0; i < 8; i++)
+	{
+		if (mdk[i]==1)
+		{
+		HQA_B = HQA_B+1
+		}
+		else if (mdk[i]==2 || mdk[i]==3)
+		{
+		HQA_B = HQA_B+2
+		}
+		else if (mdk[i]==4 || mdk[i]>4)
+		{
+		HQA_B = HQA_B+3
+		}
+	}
+	if (NW>=6)
+	{
+	HQA_B=HQA_B+1
+	}
+	
+	//C. Naturalne elementy morfologiczne koryta
+
+	var HQA_C=0;
+
+	//wychodnie skalne WS odsłonięte głazy OG porośnięte wychodnie skalne/głazy PG odsyp śródkorytowy nieutrwalony SN oraz utrwalony roślinnością SU wyspa WY naturalne spiętrzenie NS
+
+	var E61 = document.getElementById("E61").value;
+	var E62 = document.getElementById("E62").value;
+	var E63 = document.getElementById("E63").value;
+	var E64 = document.getElementById("E64").value;
+	var E65 = document.getElementById("E65").value;
+	var E66 = document.getElementById("E66").value;
+	var E67 = document.getElementById("E67").value;
+	var E68 = document.getElementById("E68").value;
+	var E69 = document.getElementById("E69").value;
+	var E70 = document.getElementById("E70").value;
+	var NEM_poza = document.getElementById("NEM_poza").value;
+
+	var WS = 0;
+	var OG = 0;
+	var PG = 0;
+	var SN = 0;
+	var SU = 0;
+	var WY = 0;
+	var NS = 0;
+
+	var E61_E70 = [E61, E62, E63, E64, E65, E66, E67, E68, E69, E70]
+
+	for (i = 0; i < 10; i++)
+	{
+		if (E61_E70[i].includes("WS"))
+		{
+		WS = WS+1
+		}
+		if (E61_E70[i].includes("OG"))
+		{
+		OG = OG+1
+		}
+		if (E61_E70[i].includes("PG"))
+		{
+		PG = PG+1
+		}
+		if (E61_E70[i].includes("SN"))
+		{
+		SN = SN+1
+		}
+		if (E61_E70[i].includes("SU"))
+		{
+		SU = SU+1
+		}
+		if (E61_E70[i].includes("WY"))
+		{
+		WY = WY+1
+		}
+		if (E61_E70[i].includes("NS"))
+		{
+		NS = NS+1
+		}
+	}
+
+	var nem = [WS,OG,PG,SN,SU,WY,NS]
+
+	for (i = 0; i < 7; i++)
+	{
+		if (nem[i]==1)
+		{
+		HQA_C = HQA_C+1
+		}
+		else if (nem[i]==2 || nem[i]==3)
+		{
+		HQA_C = HQA_C+2
+		}
+		else if (nem[i]==4 || nem[i]>4)
+		{
+		HQA_C = HQA_C+3
+		}
+	}
+	
+	var nem_ciagi = ['WS','OG','PG','SN','SU','WY','NS']
+	
+	for (i = 0; i < 7; i++)
+	{
+		if (NEM_poza.includes(nem_ciagi[i]) && nem[i]==0)
+		{
+		HQA_C = HQA_C+1
+		}
+	}
+	
+	//D. Naturalne elementy morfologiczne brzegów
+
+	var HQA_D=0;
+
+	//erodujące EB i stabilne podcięcie brzegu SB, odsyp meandrowy nieutrwalony MN i utrwalony roślinnością MR, odsyp brzegowy nieutrwalony BN i utrwalony roślinnością BU
+
+	var E21 = document.getElementById("E21").value;
+	var E22 = document.getElementById("E22").value;
+	var E23 = document.getElementById("E23").value;
+	var E24 = document.getElementById("E24").value;
+	var E25 = document.getElementById("E25").value;
+	var E26 = document.getElementById("E26").value;
+	var E27 = document.getElementById("E27").value;
+	var E28 = document.getElementById("E28").value;
+	var E29 = document.getElementById("E29").value;
+	var E30 = document.getElementById("E30").value;
+	var emb_bl_poza = document.getElementById("emb_bl_poza").value;
+	var E91 = document.getElementById("E91").value;
+	var E92 = document.getElementById("E92").value;
+	var E93 = document.getElementById("E93").value;
+	var E94 = document.getElementById("E94").value;
+	var E95 = document.getElementById("E95").value;
+	var E96 = document.getElementById("E96").value;
+	var E97 = document.getElementById("E97").value;
+	var E98 = document.getElementById("E98").value;
+	var E99 = document.getElementById("E99").value;
+	var E100 = document.getElementById("E100").value;
+	var emb_bp_poza = document.getElementById("emb_bp_poza").value;
+
+	var EB_bl = 0;
+	var SB_bl = 0;
+	var MN_bl = 0;
+	var MR_bl = 0;
+	var BN_bl = 0;
+	var BU_bl = 0;
+
+	var EB_bp = 0;
+	var SB_bp = 0;
+	var MN_bp = 0;
+	var MR_bp = 0;
+	var BN_bp = 0;
+	var BU_bp = 0;
+
+	var E21_E30 = [E21, E22, E23, E24, E25, E26, E27, E28, E29, E30]
+	var E91_E100 = [E91, E92, E93, E94, E95, E96, E97, E98, E99, E100]
+
+	for (i = 0; i < 10; i++)
+	{
+		if (E21_E30[i].includes("EB"))
+		{
+		EB_bl = EB_bl+1
+		}
+		if (E21_E30[i].includes("SB"))
+		{
+		SB_bl = SB_bl+1
+		}
+		if (E21_E30[i].includes("MN"))
+		{
+		MN_bl = MN_bl+1
+		}
+		if (E21_E30[i].includes("MR"))
+		{
+		MR_bl = MR_bl+1
+		}
+		if (E21_E30[i].includes("BN"))
+		{
+		BN_bl = BN_bl+1
+		}
+		if (E21_E30[i].includes("BU"))
+		{
+		BU_bl = BU_bl+1
+		}
+	}
+
+	for (i = 0; i < 10; i++)
+	{
+		if (E91_E100[i].includes("EB"))
+		{
+		EB_bp = EB_bp+1
+		}
+		if (E91_E100[i].includes("SB"))
+		{
+		SB_bp = SB_bp+1
+		}
+		if (E91_E100[i].includes("MN"))
+		{
+		MN_bp = MN_bp+1
+		}
+		if (E91_E100[i].includes("MR"))
+		{
+		MR_bp = MR_bp+1
+		}
+		if (E91_E100[i].includes("BN"))
+		{
+		BN_bp = BN_bp+1
+		}
+		if (E91_E100[i].includes("BU"))
+		{
+		BU_bp = BU_bp+1
+		}
+	}
+
+	var nem_bl = [EB_bl,SB_bl,MN_bl,MR_bl,BN_bl,BU_bl]
+	var nem_bp = [EB_bp,SB_bp,MN_bp,MR_bp,BN_bp,BU_bp]
+
+	for (i = 0; i < 6; i++)
+	{
+		if (nem_bl[i]==1)
+		{
+		HQA_D = HQA_D+1
+		}
+		else if (nem_bl[i]==2 || nem_bl[i]==3)
+		{
+		HQA_D = HQA_D+2
+		}
+		else if (nem_bl[i]==4 || nem_bl[i]>4)
+		{
+		HQA_D = HQA_D+3
+		}
+	}
+	for (i = 0; i < 6; i++)
+	{
+		if (nem_bp[i]==1)
+		{
+		HQA_D = HQA_D+1
+		}
+		else if (nem_bp[i]==2 || nem_bp[i]==3)
+		{
+		HQA_D = HQA_D+2
+		}
+		else if (nem_bp[i]==4 || nem_bp[i]>4)
+		{
+		HQA_D = HQA_D+3
+		}
+	}
+
+	var nem_bl_ciagi = ['EB','SB','MN','MR','BN','BU']
+	var nem_bp_ciagi = ['EB','SB','MN','MR','BN','BU']
+
+	for (i = 0; i < 6; i++)
+	{
+		if (emb_bl_poza.includes(nem_bl_ciagi[i]) && nem_bl[i]==0)
+		{
+		HQA_D = HQA_D+1
+		}
+	}
+	for (i = 0; i < 6; i++)
+	{
+		if (emb_bp_poza.includes(nem_bp_ciagi[i]) && nem_bp[i]==0)
+		{
+		HQA_D = HQA_D+1
+		}
+	}
+	
+	//E. Struktura roślinności brzegowej
+
+	var HQA_E=0;
+
+	// prosta P, zlozona Z
+
+	var F11 = document.getElementById("F11").value;
+	var F12 = document.getElementById("F12").value;
+	var F13 = document.getElementById("F13").value;
+	var F14 = document.getElementById("F14").value;
+	var F15 = document.getElementById("F15").value;
+	var F16 = document.getElementById("F16").value;
+	var F17 = document.getElementById("F17").value;
+	var F18 = document.getElementById("F18").value;
+	var F19 = document.getElementById("F19").value;
+	var F20 = document.getElementById("F20").value;
+	var F21 = document.getElementById("F21").value;
+	var F22 = document.getElementById("F22").value;
+	var F23 = document.getElementById("F23").value;
+	var F24 = document.getElementById("F24").value;
+	var F25 = document.getElementById("F25").value;
+	var F26 = document.getElementById("F26").value;
+	var F27 = document.getElementById("F27").value;
+	var F28 = document.getElementById("F28").value;
+	var F29 = document.getElementById("F29").value;
+	var F30 = document.getElementById("F30").value;
+	var F31 = document.getElementById("F31").value;
+	var F32 = document.getElementById("F32").value;
+	var F33 = document.getElementById("F33").value;
+	var F34 = document.getElementById("F34").value;
+	var F35 = document.getElementById("F35").value;
+	var F36 = document.getElementById("F36").value;
+	var F37 = document.getElementById("F37").value;
+	var F38 = document.getElementById("F38").value;
+	var F39 = document.getElementById("F39").value;
+	var F40 = document.getElementById("F40").value;
+	var F41 = document.getElementById("F41").value;
+	var F42 = document.getElementById("F42").value;
+	var F43 = document.getElementById("F43").value;
+	var F44 = document.getElementById("F44").value;
+	var F45 = document.getElementById("F45").value;
+	var F46 = document.getElementById("F46").value;
+	var F47 = document.getElementById("F47").value;
+	var F48 = document.getElementById("F48").value;
+	var F49 = document.getElementById("F49").value;
+	var F50 = document.getElementById("F50").value;
+
+	var bl_szczyt = 0;
+	var bl_stok = 0;
+
+	var bp_szczyt = 0;
+	var bp_stok = 0;
+
+	var F11_F20 = [F11, F12, F13, F14, F15, F16, F17, F18, F19, F20]
+	var F21_E30 = [F21, F22, F23, F24, F25, F26, F27, F28, F29, F30]
+	var F31_F40 = [F31, F32, F33, F34, F35, F36, F37, F38, F39, F40]
+	var F41_F50 = [F41, F42, F43, F44, F45, F46, F47, F48, F49, F50]
+
+	for (i = 0; i < 10; i++)
+	{
+		if (F11_F20[i].includes("P") || F11_F20[i].includes("Z"))
+		{
+		bl_szczyt = bl_szczyt+1
+		}
+		if (F21_E30[i].includes("P") || F21_E30[i].includes("Z"))
+		{
+		bl_stok = bl_stok+1
+		}
+		if (F31_F40[i].includes("P") || F31_F40[i].includes("Z"))
+		{
+		bp_szczyt = bp_szczyt+1
+		}
+		if (F41_F50[i].includes("P") || F41_F50[i].includes("Z"))
+		{
+		bp_stok = bp_stok+1
+		}
+	}
+
+	var srb_bl = [bl_szczyt, bl_stok]
+	var srb_bp = [bp_szczyt, bp_stok]
+
+	for (i = 0; i < 2; i++)
+	{
+		if (srb_bl[i]==1)
+		{
+		HQA_E = HQA_E+1
+		}
+		else if (srb_bl[i]==2 || srb_bl[i]==3)
+		{
+		HQA_E = HQA_E+2
+		}
+		else if (srb_bl[i]==4 || srb_bl[i]>4)
+		{
+		HQA_E = HQA_E+3
+		}
+	}
+
+	for (i = 0; i < 2; i++)
+	{
+		if (srb_bp[i]==1)
+		{
+		HQA_E = HQA_E+1
+		}
+		else if (srb_bp[i]==2 || srb_bp[i]==3)
+		{
+		HQA_E = HQA_E+2
+		}
+		else if (srb_bp[i]==4 || srb_bp[i]>4)
+		{
+		HQA_E = HQA_E+3
+		}
+	}
+	
+	//F. Odsypy meandrowe
+
+	var HQA_F=0;
+
+	var C2 = document.getElementById("C2").value;
+	var C4 = document.getElementById("C4").value;
+
+	var ilosc_odsypow = parseInt(C2)+parseInt(C4)
+
+	if (ilosc_odsypow<3)
+	{
+	HQA_F = HQA_F+0
+	}
+	else if (ilosc_odsypow>2 && ilosc_odsypow<9)
+	{
+	HQA_F = HQA_F+1
+	}
+	else if (ilosc_odsypow>8)
+	{
+	HQA_F = HQA_F+2
+	}
+	
+	//G. Typy roślinności w korycie
+
+	var HQA_G=0;
+
+	//watrobowce i mchy
+	var G12 = document.getElementById("G12").value;
+	var G13 = document.getElementById("G13").value;
+	var G14 = document.getElementById("G14").value;
+	var G15 = document.getElementById("G15").value;
+	var G16 = document.getElementById("G16").value;
+	var G17 = document.getElementById("G17").value;
+	var G18 = document.getElementById("G18").value;
+	var G19 = document.getElementById("G19").value;
+	var G20 = document.getElementById("G20").value;
+	var G21 = document.getElementById("G21").value;
+	var G22 = document.getElementById("G22").value;
+	//wynurzone szerokolistne
+	var G23 = document.getElementById("G23").value;
+	var G24 = document.getElementById("G24").value;
+	var G25 = document.getElementById("G25").value;
+	var G26 = document.getElementById("G26").value;
+	var G27 = document.getElementById("G27").value;
+	var G28 = document.getElementById("G28").value;
+	var G29 = document.getElementById("G29").value;
+	var G30 = document.getElementById("G30").value;
+	var G31 = document.getElementById("G31").value;
+	var G32 = document.getElementById("G32").value;
+	var G33 = document.getElementById("G33").value;
+	//wynurzone waskolistne
+	var G34 = document.getElementById("G34").value;
+	var G35 = document.getElementById("G35").value;
+	var G36 = document.getElementById("G36").value;
+	var G37 = document.getElementById("G37").value;
+	var G38 = document.getElementById("G38").value;
+	var G39 = document.getElementById("G39").value;
+	var G40 = document.getElementById("G40").value;
+	var G41 = document.getElementById("G41").value;
+	var G42 = document.getElementById("G42").value;
+	var G43 = document.getElementById("G43").value;
+	var G44 = document.getElementById("G44").value;
+	//zanurzone o liściach pływających, swobodnie pływające oraz zakorzenione na brzeguz pędami płozącymi się w wodzie
+	var G45 = document.getElementById("G45").value;
+	var G46 = document.getElementById("G46").value;
+	var G47 = document.getElementById("G47").value;
+	var G48 = document.getElementById("G48").value;
+	var G49 = document.getElementById("G49").value;
+	var G50 = document.getElementById("G50").value;
+	var G51 = document.getElementById("G51").value;
+	var G52 = document.getElementById("G52").value;
+	var G53 = document.getElementById("G53").value;
+	var G54 = document.getElementById("G54").value;
+	var G55 = document.getElementById("G55").value;
+	var G56 = document.getElementById("G56").value;
+	var G57 = document.getElementById("G57").value;
+	var G58 = document.getElementById("G58").value;
+	var G59 = document.getElementById("G59").value;
+	var G60 = document.getElementById("G60").value;
+	var G61 = document.getElementById("G61").value;
+	var G62 = document.getElementById("G62").value;
+	var G63 = document.getElementById("G63").value;
+	var G64 = document.getElementById("G64").value;
+	var G65 = document.getElementById("G65").value;
+	var G66 = document.getElementById("G66").value;
+	var G67 = document.getElementById("G67").value;
+	var G68 = document.getElementById("G68").value;
+	var G69 = document.getElementById("G69").value;
+	var G70 = document.getElementById("G70").value;
+	var G71 = document.getElementById("G71").value;
+	var G72 = document.getElementById("G72").value;
+	var G73 = document.getElementById("G73").value;
+	var G74 = document.getElementById("G74").value;
+	var G75 = document.getElementById("G75").value;
+	var G76 = document.getElementById("G76").value;
+	var G77 = document.getElementById("G77").value;
+	//zanurzone szerokolistne
+	var G78 = document.getElementById("G78").value;
+	var G79 = document.getElementById("G79").value;
+	var G80 = document.getElementById("G80").value;
+	var G81 = document.getElementById("G81").value;
+	var G82 = document.getElementById("G82").value;
+	var G83 = document.getElementById("G83").value;
+	var G84 = document.getElementById("G84").value;
+	var G85 = document.getElementById("G85").value;
+	var G86 = document.getElementById("G86").value;
+	var G87 = document.getElementById("G87").value;
+	var G88 = document.getElementById("G88").value;
+	//zanurzone wąskolistne oraz o liściach silnie podzielonych
+	var G89 = document.getElementById("G89").value;
+	var G90 = document.getElementById("G90").value;
+	var G91 = document.getElementById("G91").value;
+	var G92 = document.getElementById("G92").value;
+	var G93 = document.getElementById("G93").value;
+	var G94 = document.getElementById("G94").value;
+	var G95 = document.getElementById("G95").value;
+	var G96 = document.getElementById("G96").value;
+	var G97 = document.getElementById("G97").value;
+	var G98 = document.getElementById("G98").value;
+	var G99 = document.getElementById("G99").value;
+	var G100 = document.getElementById("G100").value;
+	var G101 = document.getElementById("G101").value;
+	var G102 = document.getElementById("G102").value;
+	var G103 = document.getElementById("G103").value;
+	var G104 = document.getElementById("G104").value;
+	var G105 = document.getElementById("G105").value;
+	var G106 = document.getElementById("G106").value;
+	var G107 = document.getElementById("G107").value;
+	var G108 = document.getElementById("G108").value;
+	var G109 = document.getElementById("G109").value;
+	var G110 = document.getElementById("G110").value;	
+
+	var wim = 0
+	var wsz = 0
+	var ww = 0
+	var zolp_sp_znbzppsww = 0
+	var zsz = 0
+	var zw_olsp = 0
+
+	var G12_G21 = [G12, G13, G14, G15, G16, G17, G18, G19, G20, G21]
+	var E23_E32 = [G23, G24, G25, G26, G27, G28, G29, G30, G31, G32]
+	var G34_G43 = [G34, G35, G36, G37, G38, G39, G40, G41, G42, G43]
+	var G45_G77 = [G45, G46, G47, G48, G49, G50, G51, G52, G53, G54, G56, G57, G58, G59, G60, G61, G62, G63, G64, G65, G67, G68, G69, G70, G71, G72, G73, G74, G75, G76]
+	var G78_G87 = [G78, G79, G80, G81, G82, G83, G84, G85, G86, G87]
+	var G89_G109 = [G89, G90, G91, G92, G93, G94, G95, G96, G97, G98, G100, G101, G102, G103, G104, G105, G106, G107, G108, G109]
+		
+	for (i = 0; i < 10; i++)
+	{
+		if (G12_G21[i].includes("V"))
+		{
+		wim = wim+1
+		}
+		if (E23_E32[i].includes("V"))
+		{
+		wsz = wsz+1
+		}
+		if (G34_G43[i].includes("V"))
+		{
+		ww = ww+1
+		}
+		if (G78_G87[i].includes("V"))
+		{
+		zsz = zsz+1
+		}
+	}
+
+	for (i = 0; i < 30; i++)
+	{
+		if (G45_G77[i].includes("V"))
+		{
+		zolp_sp_znbzppsww = zolp_sp_znbzppsww+1
+		}
+	}
+
+	for (i = 0; i < 20; i++)
+	{
+		if (G89_G109[i].includes("V"))
+		{
+		zw_olsp = zw_olsp+1
+		}
+	}	
+
+	var trwk = [wim,wsz,ww,zolp_sp_znbzppsww,zsz,zw_olsp]
+
+	for (i = 0; i < 6; i++)
+	{
+		if (trwk[i]==0)
+		{
+		HQA_G = HQA_G+0
+		}
+		else if (trwk[i]>0 && trwk[i]<4)
+		{
+		HQA_G = HQA_G+1
+		}
+		else if (trwk[i]==4 || trwk[i]>4)
+		{
+		HQA_G = HQA_G+2
+		}
+	}
+
+	//H. Użytkowanie terenu w pasie 50 m od szczytu brzegu
+
+	var HQA_H=0;
+
+	//lasy lisciaste/mieszane LL, lasy iglaste IL, tereny podmokle(bagna i torfowiska) TP
+
+	var H1 = document.getElementById("H1").value;
+	var H2 = document.getElementById("H2").value;
+
+	var H3 = document.getElementById("H3").value;
+	var H4 = document.getElementById("H4").value;
+	var H5 = document.getElementById("H5").value;
+	var H6 = document.getElementById("H6").value;
+	var H7 = document.getElementById("H7").value;
+	var H8 = document.getElementById("H8").value;
+
+	var H9 = document.getElementById("H9").value;
+	var H10 = document.getElementById("H10").value;
+
+	var H11 = document.getElementById("H11").value;
+	var H12 = document.getElementById("H12").value;
+	var H13 = document.getElementById("H13").value;
+	var H14 = document.getElementById("H14").value;
+	var H15 = document.getElementById("H15").value;
+	var H16 = document.getElementById("H16").value;
+	var H17 = document.getElementById("H17").value;
+	var H18 = document.getElementById("H18").value;
+	var H19 = document.getElementById("H19").value;
+	var H20 = document.getElementById("H20").value;
+	var H21 = document.getElementById("H21").value;
+	var H22 = document.getElementById("H22").value;
+	var H23 = document.getElementById("H23").value;
+	var H24 = document.getElementById("H24").value;
+
+	var H25 = document.getElementById("H25").value;
+	var H26 = document.getElementById("H26").value;
+
+	var H27 = document.getElementById("H27").value;
+	var H28 = document.getElementById("H28").value;
+	var H29 = document.getElementById("H29").value;
+	var H30 = document.getElementById("H30").value;
+	var H31 = document.getElementById("H31").value;
+	var H32 = document.getElementById("H32").value;
+	var H33 = document.getElementById("H33").value;
+	var H34 = document.getElementById("H34").value;
+
+	if (H3=='' && H4=='' && H5=='' && H6=='' && H7=='' && H8=='' && H11=='' && H12=='' && H13=='' && H14=='' && H15=='' && H16=='' && H17=='' && H18=='' 
+	&& H19=='' && H20==''&& H21=='' && H22=='' && H23=='' && H24=='' && H27=='' && H28=='' && H29=='' && H30=='' && H31=='' && H32=='' && H33=='' && H34=='' 
+	&& (H1=="V" || H1=="D") && (H2=="V" || H2=="D") && (H9=="V" || H9=="D") && (H10=="V" || H10=="D") && (H25=="V" || H25=="D") && (H26=="V" || H26=="D"))
+	{
+		HQA_H = HQA_H+7
+	}
+	else
+	{
+		if (H1=="V")
+		{
+		HQA_H = HQA_H+2
+		}
+		if (H1=="D")
+		{
+		HQA_H = HQA_H+1
+		}
+		if (H2=="V")
+		{
+		HQA_H = HQA_H+2
+		}
+		if (H2=="D")
+		{
+		HQA_H = HQA_H+1
+		}
+		if (H9=="V")
+		{
+		HQA_H = HQA_H+2
+		}
+		if (H9=="D")
+		{
+		HQA_H = HQA_H+1
+		}
+		if (H10=="V")
+		{
+		HQA_H = HQA_H+2
+		}
+		if (H10=="D")
+		{
+		HQA_H = HQA_H+1
+		}
+		if (H25=="V")
+		{
+		HQA_H = HQA_H+2
+		}
+		if (H25=="D")
+		{
+		HQA_H = HQA_H+1
+		}
+		if (H26=="V")
+		{
+		HQA_H = HQA_H+2
+		}
+		if (H26=="D")
+		{
+		HQA_H = HQA_H+1
+		}
+	}
+	
+	//I. Zadrzewienia i elementy morfologiczne im towarzyszące
+
+	var HQA_I=0;
+
+	
+	var J3 = document.getElementById("J3").checked;
+	var J4 = document.getElementById("J4").checked;
+	var J5 = document.getElementById("J5").checked;
+	var J6 = document.getElementById("J6").checked;
+	var J7 = document.getElementById("J7").checked;
+	var J8 = document.getElementById("J8").checked;
+	var J9 = document.getElementById("J9").checked;
+	var J10 = document.getElementById("J10").checked;
+	var J11 = document.getElementById("J11").checked;
+	var J12 = document.getElementById("J12").checked;
+	var J13 = document.getElementById("J13").checked;
+	var J14 = document.getElementById("J14").checked;
+	var J15 = document.getElementById("J15").checked;
+	var J16 = document.getElementById("J16").checked;
+	var J17 = document.getElementById("J17").checked;
+	var J18 = document.getElementById("J18").checked;
+	var J19 = document.getElementById("J19").checked;
+	var J20 = document.getElementById("J20").checked;
+	var J21 = document.getElementById("J21").checked;
+	var J22 = document.getElementById("J22").checked;
+	var J23 = document.getElementById("J23").checked;
+	var J24 = document.getElementById("J24").checked;
+	var J25 = document.getElementById("J25").checked;
+	var J26 = document.getElementById("J26").checked;
+	var J27 = document.getElementById("J27").checked;
+	var J28 = document.getElementById("J28").checked;
+	var J29 = document.getElementById("J29").checked;
+	var J30 = document.getElementById("J30").checked;
+
+	//rzad 1
+	if (J6)
+	{
+	HQA_I = HQA_I+1
+	}
+	if (J7)
+	{
+	HQA_I = HQA_I+1
+	}
+	if (J11)
+	{
+	HQA_I = HQA_I+2
+	}
+	if (J12)
+	{
+	HQA_I = HQA_I+2
+	}
+	if (J16)
+	{
+	HQA_I = HQA_I+2
+	}
+	if (J17)
+	{
+	HQA_I = HQA_I+2
+	}
+	if (J21)
+	{
+	HQA_I = HQA_I+3
+	}
+	if (J22)
+	{
+	HQA_I = HQA_I+3
+	}
+	if (J26)
+	{
+	HQA_I = HQA_I+3
+	}
+	if (J27)
+	{
+	HQA_I = HQA_I+3
+	}
+
+	//za 1pkt
+	if (J4)
+	{
+	HQA_I = HQA_I+1
+	}
+	if (J9)
+	{
+	HQA_I = HQA_I+1
+	}
+	if (J10)
+	{
+	HQA_I = HQA_I+1
+	}
+	if (J14)
+	{
+	HQA_I = HQA_I+1
+	}
+	if (J19)
+	{
+	HQA_I = HQA_I+1
+	}
+	if (J24)
+	{
+	HQA_I = HQA_I+1
+	}
+	if (J29)
+	{
+	HQA_I = HQA_I+1
+	}
+
+	//za 2pkt
+	if (J15)
+	{
+	HQA_I = HQA_I+2
+	}
+	if (J20)
+	{
+	HQA_I = HQA_I+2
+	}
+
+	//za 3pkt
+	if (J30)
+	{
+	HQA_I = HQA_I+3
+	}
+
+	//za 5pkt
+	if (J25)
+	{
+	HQA_I = HQA_I+5
+	}
+	
+	//J. Cenne przyrodniczo elementy środowiska rzecznego
+
+	var HQA_J=0;
+		
+	var M13 = document.getElementById("M13").checked;
+	var M5 = document.getElementById("M5").checked;
+	var M14 = document.getElementById("M14").checked;
+	var M16 = document.getElementById("M16").checked;
+	var M18 = document.getElementById("M18").checked;
+	var M3 = document.getElementById("M3").checked;
+	var M15 = document.getElementById("M15").checked;
+	var M19 = document.getElementById("M19").checked;
+		
+	if (M13 || M5 || M14 || M16 || M18 || M3 || M15 || M19)
+	{
+	HQA_J = HQA_J+5
+	}
+	
+	HQA = HQA+HQA_A+HQA_B+HQA_C+HQA_D+HQA_E+HQA_F+HQA_G+HQA_H+HQA_I+HQA_J
+	document.getElementById("HQA_WYNIK").innerHTML = HQA;
+}
+
+function HMS()
+{
+	var HMS = 0;
+	
+	//sekcja D
+	var HMS_A = 0;
+	
+	//Checkbox "Brak"
+	var D1 = document.getElementById("D1").checked;
+
+	var D2 = document.getElementById("D2").value;
+	var D3 = document.getElementById("D3").value;
+	var D4 = document.getElementById("D4").value;
+
+	var D5 = document.getElementById("D5").value;
+	var D6 = document.getElementById("D6").value;
+	var D7 = document.getElementById("D7").value;
+
+	var D8 = document.getElementById("D8").value;
+
+	var D9 = document.getElementById("D9").value;
+	var D10 = document.getElementById("D10").value;
+	var D11 = document.getElementById("D11").value;
+
+	var D12 = document.getElementById("D12").value;
+	var D13 = document.getElementById("D13").value;
+	var D14 = document.getElementById("D14").value;
+
+	var D15 = document.getElementById("D15").value;
+	var D16 = document.getElementById("D16").value;
+	var D17 = document.getElementById("D17").value;
+
+	var D18 = document.getElementById("D18").value;
+	var D19 = document.getElementById("D19").value;
+	var D20 = document.getElementById("D20").value;
+
+	var D21 = document.getElementById("D21").checked;
+	var D22 = document.getElementById("D22").checked;
+	var D23 = document.getElementById("D23").checked;
+
+	var D24 = document.getElementById("D24").checked;
+	var D25 = document.getElementById("D25").checked;
+	var D26 = document.getElementById("D26").checked;
+
+	var D27 = document.getElementById("D27").checked;
+	var D28 = document.getElementById("D28").checked;
+	var D29 = document.getElementById("D29").checked;
+
+	if (D1)
+	{
+		HMS_A = HMS_A+0;
+	}
+	else
+	{
+		var D_234 = parseInt(D2)+parseInt(D3)+parseInt(D4);
+		D_234 = D_234*2;
+		HMS_A = HMS_A+D_234;
+		
+		var D_8 = parseInt(D8);
+		D_8 = D_8*8;
+		HMS_A = HMS_A+D_8;
+		
+		var D_91011 = parseInt(D9)+parseInt(D10)+parseInt(D11);
+		D_91011 = D_91011*2;
+		HMS_A = HMS_A+D_91011;
+		
+		var D_121314 = parseInt(D12)+parseInt(D13)+parseInt(D14);
+		if (D_121314==1)
+		{
+		D_121314 = 1;
+		}
+		else if (D_121314>=1)
+		{
+		D_121314 = 2;
+		}
+		else
+		{
+		D_121314 = 0;
+		}
+		HMS_A = HMS_A+D_121314;
+		
+		var D_151617 = parseInt(D15)+parseInt(D16)+parseInt(D17);
+		if (D_151617==1)
+		{
+		D_151617 = 1;
+		}
+		else if (D_151617>=1)
+		{
+		D_151617 = 2;
+		}
+		else
+		{
+		D_151617 = 0;
+		}
+		HMS_A = HMS_A+D_151617;
+		
+		if (D27)
+		{
+		HMS_A = HMS_A+0
+		}
+		else if (D28)
+		{
+		HMS_A = HMS_A+1
+		}
+		else if (D29)
+		{
+		HMS_A = HMS_A+2
+		}
+		if (D24)
+		{
+		HMS_A = HMS_A+0
+		}
+		else if (D25)
+		{
+		HMS_A = HMS_A+5
+		}
+		else if (D26)
+		{
+		HMS_A = HMS_A+10
+		}
+		
+	}
+	
+	//sekcja E
+
+	var HMS_B = 0;
+
+	var E1 = document.getElementById("E1").value;
+	var E2 = document.getElementById("E2").value;
+	var E3 = document.getElementById("E3").value;
+	var E4 = document.getElementById("E4").value;
+	var E5 = document.getElementById("E5").value;
+	var E6 = document.getElementById("E6").value;
+	var E7 = document.getElementById("E7").value;
+	var E8 = document.getElementById("E8").value;
+	var E9 = document.getElementById("E9").value;
+	var E10 = document.getElementById("E10").value;
+	var E11 = document.getElementById("E11").value;
+	var E12 = document.getElementById("E12").value;
+	var E13 = document.getElementById("E13").value;
+	var E14 = document.getElementById("E14").value;
+	var E15 = document.getElementById("E15").value;
+	var E16 = document.getElementById("E16").value;
+	var E17 = document.getElementById("E17").value;
+	var E18 = document.getElementById("E18").value;
+	var E19 = document.getElementById("E19").value;
+	var E20 = document.getElementById("E20").value;
+	var E21 = document.getElementById("E21").value;
+	var E22 = document.getElementById("E22").value;
+	var E23 = document.getElementById("E23").value;
+	var E24 = document.getElementById("E24").value;
+	var E25 = document.getElementById("E25").value;
+	var E26 = document.getElementById("E26").value;
+	var E27 = document.getElementById("E27").value;
+	var E28 = document.getElementById("E28").value;
+	var E29 = document.getElementById("E29").value;
+	var E30 = document.getElementById("E30").value;
+	var E31 = document.getElementById("E31").value;
+	var E32 = document.getElementById("E32").value;
+	var E33 = document.getElementById("E33").value;
+	var E34 = document.getElementById("E34").value;
+	var E35 = document.getElementById("E35").value;
+	var E36 = document.getElementById("E36").value;
+	var E37 = document.getElementById("E37").value;
+	var E38 = document.getElementById("E38").value;
+	var E39 = document.getElementById("E39").value;
+	var E40 = document.getElementById("E40").value;
+	var E41 = document.getElementById("E41").value;
+	var E42 = document.getElementById("E42").value;
+	var E43 = document.getElementById("E43").value;
+	var E44 = document.getElementById("E44").value;
+	var E45 = document.getElementById("E45").value;
+	var E46 = document.getElementById("E46").value;
+	var E47 = document.getElementById("E47").value;
+	var E48 = document.getElementById("E48").value;
+	var E49 = document.getElementById("E49").value;
+	var E50 = document.getElementById("E50").value;
+	var E51 = document.getElementById("E51").value;
+	var E52 = document.getElementById("E52").value;
+	var E53 = document.getElementById("E53").value;
+	var E54 = document.getElementById("E54").value;
+	var E55 = document.getElementById("E55").value;
+	var E56 = document.getElementById("E56").value;
+	var E57 = document.getElementById("E57").value;
+	var E58 = document.getElementById("E58").value;
+	var E59 = document.getElementById("E59").value;
+	var E60 = document.getElementById("E60").value;
+	var E61 = document.getElementById("E61").value;
+	var E62 = document.getElementById("E62").value;
+	var E63 = document.getElementById("E63").value;
+	var E64 = document.getElementById("E64").value;
+	var E65 = document.getElementById("E65").value;
+	var E66 = document.getElementById("E66").value;
+	var E67 = document.getElementById("E67").value;
+	var E68 = document.getElementById("E68").value;
+	var E69 = document.getElementById("E69").value;
+	var E70 = document.getElementById("E70").value;
+	var E71 = document.getElementById("E71").value;
+	var E72 = document.getElementById("E72").value;
+	var E73 = document.getElementById("E73").value;
+	var E74 = document.getElementById("E74").value;
+	var E75 = document.getElementById("E75").value;
+	var E76 = document.getElementById("E76").value;
+	var E77 = document.getElementById("E77").value;
+	var E78 = document.getElementById("E78").value;
+	var E79 = document.getElementById("E79").value;
+	var E80 = document.getElementById("E80").value;
+	var E81 = document.getElementById("E81").value;
+	var E82 = document.getElementById("E82").value;
+	var E83 = document.getElementById("E83").value;
+	var E84 = document.getElementById("E84").value;
+	var E85 = document.getElementById("E85").value;
+	var E86 = document.getElementById("E86").value;
+	var E87 = document.getElementById("E87").value;
+	var E88 = document.getElementById("E88").value;
+	var E89 = document.getElementById("E89").value;
+	var E90 = document.getElementById("E90").value;
+	var E91 = document.getElementById("E91").value;
+	var E92 = document.getElementById("E92").value;
+	var E93 = document.getElementById("E93").value;
+	var E94 = document.getElementById("E94").value;
+	var E95 = document.getElementById("E95").value;
+	var E96 = document.getElementById("E96").value;
+	var E97 = document.getElementById("E97").value;
+	var E98 = document.getElementById("E98").value;
+	var E99 = document.getElementById("E99").value;
+	var E100 = document.getElementById("E100").value;
+
+	//Umocnienie brzeg lewy
+	if (E11.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E12.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E13.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E14.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E15.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E16.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E17.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E18.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E19.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E20.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+
+	//Umocnienie brzeg prawy
+	if (E81.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E82.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E83.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E84.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E85.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E86.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E87.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E88.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E89.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E90.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+
+	//Umocnienie dna
+	if (E51.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E52.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E53.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E54.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E55.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E56.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E57.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E58.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E59.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E60.includes("UM"))
+	{
+		HMS_B = HMS_B+2;
+	}
+
+	//Wyprofilowanie brzeg lewy
+	if (E11.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E12.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E13.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E14.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E15.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E16.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E17.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E18.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E19.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E20.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+
+	//Wyprofilowanie brzeg prawy
+	if (E81.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E82.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E83.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E84.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E85.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E86.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E87.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E88.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E89.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E90.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+
+	//Wyprofilowanie dna
+	if (E51.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E52.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E53.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E54.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E55.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E56.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E57.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E58.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E59.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E60.includes("PR"))
+	{
+		HMS_B = HMS_B+1;
+	}
+
+	//Wyprofilowanie brzeg lewy
+	if (E11.includes("OB"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E12.includes("OB"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E13.includes("OB"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E14.includes("OB"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E15.includes("OB"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E16.includes("OB"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E17.includes("OB"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E18.includes("OB"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E19.includes("OB"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E20.includes("OB"))
+	{
+		HMS_B = HMS_B+1;
+	}
+
+	//Wyprofilowanie brzeg prawy
+	if (E81.includes("OB"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E82.includes("OB"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E83.includes("OB"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E84.includes("OB"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E85.includes("OB"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E86.includes("OB"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E87.includes("OB"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E88.includes("OB"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E89.includes("OB"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E90.includes("OB"))
+	{
+		HMS_B = HMS_B+1;
+	}
+
+	//Budowla pietrzaca lub poprzeczna, przeprawa - dno
+	if (E51.includes("BP") || E51.includes("PP"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E52.includes("BP") || E52.includes("PP"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E53.includes("BP") || E53.includes("PP"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E54.includes("BP") || E54.includes("PP"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E55.includes("BP") || E55.includes("PP"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E56.includes("BP") || E56.includes("PP"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E57.includes("BP") || E57.includes("PP"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E58.includes("BP") || E58.includes("PP"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E59.includes("BP") || E59.includes("PP"))
+	{
+		HMS_B = HMS_B+2;
+	}
+	if (E60.includes("BP") || E60.includes("PP"))
+	{
+		HMS_B = HMS_B+2;
+	}
+
+	//Przepust - dno
+	if (E51.includes("PZ"))
+	{
+		HMS_B = HMS_B+8;
+	}
+	if (E52.includes("PZ"))
+	{
+		HMS_B = HMS_B+8;
+	}
+	if (E53.includes("PZ"))
+	{
+		HMS_B = HMS_B+8;
+	}
+	if (E54.includes("PZ"))
+	{
+		HMS_B = HMS_B+8;
+	}
+	if (E55.includes("PZ"))
+	{
+		HMS_B = HMS_B+8;
+	}
+	if (E56.includes("PZ"))
+	{
+		HMS_B = HMS_B+8;
+	}
+	if (E57.includes("PZ"))
+	{
+		HMS_B = HMS_B+8;
+	}
+	if (E58.includes("PZ"))
+	{
+		HMS_B = HMS_B+8;
+	}
+	if (E59.includes("PZ"))
+	{
+		HMS_B = HMS_B+8;
+	}
+	if (E60.includes("PZ"))
+	{
+		HMS_B = HMS_B+8;
+	}
+
+	//Wielodzielny profil - brzeg lewy
+	if (E11.includes("KW"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E12.includes("KW"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E13.includes("KW"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E14.includes("KW"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E15.includes("KW"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E16.includes("KW"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E17.includes("KW"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E18.includes("KW"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E19.includes("KW"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E20.includes("KW"))
+	{
+		HMS_B = HMS_B+1;
+	}
+
+	//Wielodzielny profil - brzeg prawy
+	if (E81.includes("KW"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E82.includes("KW"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E83.includes("KW"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E84.includes("KW"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E85.includes("KW"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E86.includes("KW"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E87.includes("KW"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E88.includes("KW"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E89.includes("KW"))
+	{
+		HMS_B = HMS_B+1;
+	}
+	if (E90.includes("KW"))
+	{
+		HMS_B = HMS_B+1;
+	}
+
+	//Brzeg rozdeptany - brzeg lewy
+	var pktbl = 0;
+	if (E11.includes("RB") || E11.includes("RB(N)"))
+	{
+		pktbl = pktbl+1;
+	}
+	if (E12.includes("RB") || E12.includes("RB(N)"))
+	{
+		pktbl = pktbl+1;
+	}
+	if (E13.includes("RB") || E13.includes("RB(N)"))
+	{
+		pktbl = pktbl+1;
+	}
+	if (E14.includes("RB") || E14.includes("RB(N)"))
+	{
+		pktbl = pktbl+1;
+	}
+	if (E15.includes("RB") || E15.includes("RB(N)"))
+	{
+		pktbl = pktbl+1;
+	}
+	if (E16.includes("RB") || E16.includes("RB(N)"))
+	{
+		pktbl = pktbl+1;
+	}
+	if (E17.includes("RB") || E17.includes("RB(N)"))
+	{
+		pktbl = pktbl+1;
+	}
+	if (E18.includes("RB") || E18.includes("RB(N)"))
+	{
+		pktbl = pktbl+1;
+	}
+	if (E19.includes("RB") || E19.includes("RB(N)"))
+	{
+		pktbl = pktbl+1;
+	}
+	if (E20.includes("RB") || E20.includes("RB(N)"))
+	{
+		pktbl = pktbl+1;
+	}
+	if (pktbl<3)
+	{
+		HMS_B = HMS_B+0;
+	}
+	else if (pktbl>2 && pktbl<6)
+	{
+		HMS_B = HMS_B+1;
+	}
+	else if (pktbl>5)
+	{
+		HMS_B = HMS_B+2;
+	}
+
+	//Brzeg rozdeptany - brzeg prawy
+	var pktbp = 0;
+	if (E81.includes("RB") || E81.includes("RB(N)"))
+	{
+		pktbp = pktbp+1;
+	}
+	if (E82.includes("RB") || E82.includes("RB(N)"))
+	{
+		pktbp = pktbp+1;
+	}
+	if (E83.includes("RB") || E83.includes("RB(N)"))
+	{
+		pktbp = pktbp+1;
+	}
+	if (E84.includes("RB") || E84.includes("RB(N)"))
+	{
+		pktbp = pktbp+1;
+	}
+	if (E85.includes("RB") || E85.includes("RB(N)"))
+	{
+		pktbp = pktbp+1;
+	}
+	if (E86.includes("RB") || E86.includes("RB(N)"))
+	{
+		pktbp = pktbp+1;
+	}
+	if (E87.includes("RB") || E87.includes("RB(N)"))
+	{
+		pktbp = pktbp+1;
+	}
+	if (E88.includes("RB") || E88.includes("RB(N)"))
+	{
+		pktbp = pktbp+1;
+	}
+	if (E89.includes("RB") || E89.includes("RB(N)"))
+	{
+		pktbp = pktbp+1;
+	}
+	if (E90.includes("RB") || E90.includes("RB(N)"))
+	{
+		pktbp = pktbp+1;
+	}
+
+	if (pktbp<3)
+	{
+		HMS_B = HMS_B+0;
+	}
+	else if (pktbp>2 && pktbp<6)
+	{
+		HMS_B = HMS_B+1;
+	}
+	else if (pktbp>5)
+	{
+		HMS_B = HMS_B+2;
+	}
+	
+	//sekcja EIP
+	
+	var HMS_C = 0;
+	
+	var MD_poza = document.getElementById("MD_poza").value;
+	var I1 = document.getElementById("I1").value;
+	var I2 = document.getElementById("I2").value;
+	var I3 = document.getElementById("I3").value;
+	var I4 = document.getElementById("I4").value;
+	var I5 = document.getElementById("I5").value;
+	var I6 = document.getElementById("I6").value;
+	var I7 = document.getElementById("I7").value;
+	var I8 = document.getElementById("I8").value;
+	var I9 = document.getElementById("I9").value;
+	var I10 = document.getElementById("I10").value;
+	var I11 = document.getElementById("I11").value;
+	var I12 = document.getElementById("I12").value;
+	var I13 = document.getElementById("I13").value;
+	var I14 = document.getElementById("I14").value;
+	var I15 = document.getElementById("I15").value;
+	var I16 = document.getElementById("I16").value;
+	var I17 = document.getElementById("I17").value;
+	var I18 = document.getElementById("I18").value;
+	var I19 = document.getElementById("I19").value;
+	var I20 = document.getElementById("I20").value;
+	var I21 = document.getElementById("I21").value;
+	var I22 = document.getElementById("I22").value;
+	var I23 = document.getElementById("I23").value;
+	var I24 = document.getElementById("I24").value;
+	var I25 = document.getElementById("I25").value;
+	var I26 = document.getElementById("I26").value;
+	var I27 = document.getElementById("I27").value;
+	var I28 = document.getElementById("I28").value;
+	var P21 = document.getElementById("P21").checked;
+	var P22 = document.getElementById("P22").checked;
+
+	//material dna pochodzenia antropogenicznego
+	if (MD_poza.includes("AP"))
+	{
+	HMS_C = HMS_C+1
+	}
+	//okladziny i bruki betonowe lub kamienne jako material dna.
+	if (MD_poza.includes("BE") || MD_poza.includes("OK"))
+	{
+	HMS_C = HMS_C+1
+	}
+	//Gabion, narzut kamienny lub siatka syntetyczna jako material dna
+	if (MD_poza.includes("GS") || MD_poza.includes("NK") || MD_poza.includes("PS"))
+	{
+	HMS_C = HMS_C+1
+	}
+
+	//Umocniony cały profil brzegu
+	if (I7=="V" && I8=="V")
+	{
+	HMS_C = HMS_C+3
+	}
+	else if (I7=="V" || I8=="V")
+	{
+	HMS_C = HMS_C+2
+	}
+
+	//Umocniony tylko szczyt lub podstawa brzegu
+	if (I11=="V" && I12=="V" && I15=="V" && I16=="V")
+	{
+	HMS_C = HMS_C+2
+	}
+	else if (I11=="V" || I12=="V" || I15=="V" || I16=="V")
+	{
+	HMS_C = HMS_C+1
+	}
+
+	//Profilowany brzeg
+	if (I3=="V" && I4=="V")
+	{
+	HMS_C = HMS_C+2
+	}
+	else if (I3=="V" || I4=="V")
+	{
+	HMS_C = HMS_C+1
+	}
+
+	//Dwudzielny profil brzegu
+	if (I19=="V" && I20=="V")
+	{
+	HMS_C = HMS_C+3
+	}
+	else if (I19=="V" || I20=="V")
+	{
+	HMS_C = HMS_C+1
+	}
+
+	//Obwałowanie na skarpie brzegowej
+	if (I25=="V" && I26=="V")
+	{
+	HMS_C = HMS_C+1
+	}
+	if (I25=="V" || I26=="V")
+	{
+	HMS_C = HMS_C+1
+	}
+
+	//Obwałowanie poza skarpą brzegową
+	if (I27=="V" && I28=="V")
+	{
+	HMS_C = HMS_C+1
+	}
+	else if (I27=="V" || I28=="V")
+	{
+	HMS_C = HMS_C+1
+	}
+
+	//Usuwanie roslin z koryta
+	if (P21)
+	{
+	HMS_C = HMS_C+1
+	}
+
+	//Wykaszanie brzegów
+	if (P22)
+	{
+	HMS_C = HMS_C+1
+	}
+	
+	HMS = HMS+HMS_A+HMS_B+HMS_C
+	document.getElementById("HMS_WYNIK").innerHTML = HMS;
+}
+</script>
+
+<script>
+
+function KLASA()
+{
+	var hms = document.getElementById("HMS_WYNIK").innerHTML;
+	hms = parseInt(hms)
+	var hqa = document.getElementById("HQA_WYNIK").innerHTML;
+	hqa = parseInt(hqa)
+	var wyk_bad = document.getElementById("A15").value;
+	var naz_rze = document.getElementById("A12").value;
+	var naz_odc_bad = document.getElementById("A11").value;
+	var num_odc_bad = document.getElementById("A1").value;
+	
+	document.getElementById("wyk_bad").innerHTML = wyk_bad;
+	document.getElementById("naz_rze").innerHTML = naz_rze;
+	document.getElementById("naz_odc_bad").innerHTML = "Nazwa: "+naz_odc_bad+"<br>"+"Numer: "+num_odc_bad;
+	
+	if ((hms==0 || hms>0) && (hqa==0 || hqa>0))
+	{
+		//rzad1
+		if (hms<3 && hqa>108)
+		{
+		document.getElementById("KLASA_WYNIK").innerHTML = 'I – stan bardzo dobry';
+		document.getElementById("komorka1").style.border = 'solid 3px black';
+		document.getElementById("komorka2").style.border = 'solid 0px black';
+		document.getElementById("komorka3").style.border = 'solid 0px black';
+		document.getElementById("komorka4").style.border = 'solid 0px black';
+		document.getElementById("komorka5").style.border = 'solid 0px black';
+		document.getElementById("komorka6").style.border = 'solid 0px black';
+		document.getElementById("komorka7").style.border = 'solid 0px black';
+		document.getElementById("komorka8").style.border = 'solid 0px black';
+		document.getElementById("komorka9").style.border = 'solid 0px black';
+		document.getElementById("komorka10").style.border = 'solid 0px black';
+		document.getElementById("komorka11").style.border = 'solid 0px black';
+		document.getElementById("komorka12").style.border = 'solid 0px black';
+		document.getElementById("komorka13").style.border = 'solid 0px black';
+		document.getElementById("komorka14").style.border = 'solid 0px black';
+		document.getElementById("komorka15").style.border = 'solid 0px black';
+		document.getElementById("komorka16").style.border = 'solid 0px black';
+		document.getElementById("komorka17").style.border = 'solid 0px black';
+		document.getElementById("komorka18").style.border = 'solid 0px black';
+		document.getElementById("komorka19").style.border = 'solid 0px black';
+		document.getElementById("komorka20").style.border = 'solid 0px black';
+		document.getElementById("komorka21").style.border = 'solid 0px black';
+		document.getElementById("komorka22").style.border = 'solid 0px black';
+		document.getElementById("komorka23").style.border = 'solid 0px black';
+		document.getElementById("komorka24").style.border = 'solid 0px black';
+		document.getElementById("komorka25").style.border = 'solid 0px black';
+		}
+		else if (hms<3 && (hqa>81 && hqa<109))
+		{
+		document.getElementById("KLASA_WYNIK").innerHTML = 'II – stan dobry';
+		document.getElementById("komorka1").style.border = 'solid 0px black';
+		document.getElementById("komorka2").style.border = 'solid 3px black';
+		document.getElementById("komorka3").style.border = 'solid 0px black';
+		document.getElementById("komorka4").style.border = 'solid 0px black';
+		document.getElementById("komorka5").style.border = 'solid 0px black';
+		document.getElementById("komorka6").style.border = 'solid 0px black';
+		document.getElementById("komorka7").style.border = 'solid 0px black';
+		document.getElementById("komorka8").style.border = 'solid 0px black';
+		document.getElementById("komorka9").style.border = 'solid 0px black';
+		document.getElementById("komorka10").style.border = 'solid 0px black';
+		document.getElementById("komorka11").style.border = 'solid 0px black';
+		document.getElementById("komorka12").style.border = 'solid 0px black';
+		document.getElementById("komorka13").style.border = 'solid 0px black';
+		document.getElementById("komorka14").style.border = 'solid 0px black';
+		document.getElementById("komorka15").style.border = 'solid 0px black';
+		document.getElementById("komorka16").style.border = 'solid 0px black';
+		document.getElementById("komorka17").style.border = 'solid 0px black';
+		document.getElementById("komorka18").style.border = 'solid 0px black';
+		document.getElementById("komorka19").style.border = 'solid 0px black';
+		document.getElementById("komorka20").style.border = 'solid 0px black';
+		document.getElementById("komorka21").style.border = 'solid 0px black';
+		document.getElementById("komorka22").style.border = 'solid 0px black';
+		document.getElementById("komorka23").style.border = 'solid 0px black';
+		document.getElementById("komorka24").style.border = 'solid 0px black';
+		document.getElementById("komorka25").style.border = 'solid 0px black';	
+		}
+		else if (hms<3 && (hqa>54 && hqa<82))
+		{
+		document.getElementById("KLASA_WYNIK").innerHTML = 'II – stan dobry';
+		document.getElementById("komorka1").style.border = 'solid 0px black';
+		document.getElementById("komorka2").style.border = 'solid 0px black';
+		document.getElementById("komorka3").style.border = 'solid 3px black';
+		document.getElementById("komorka4").style.border = 'solid 0px black';
+		document.getElementById("komorka5").style.border = 'solid 0px black';
+		document.getElementById("komorka6").style.border = 'solid 0px black';
+		document.getElementById("komorka7").style.border = 'solid 0px black';
+		document.getElementById("komorka8").style.border = 'solid 0px black';
+		document.getElementById("komorka9").style.border = 'solid 0px black';
+		document.getElementById("komorka10").style.border = 'solid 0px black';
+		document.getElementById("komorka11").style.border = 'solid 0px black';
+		document.getElementById("komorka12").style.border = 'solid 0px black';
+		document.getElementById("komorka13").style.border = 'solid 0px black';
+		document.getElementById("komorka14").style.border = 'solid 0px black';
+		document.getElementById("komorka15").style.border = 'solid 0px black';
+		document.getElementById("komorka16").style.border = 'solid 0px black';
+		document.getElementById("komorka17").style.border = 'solid 0px black';
+		document.getElementById("komorka18").style.border = 'solid 0px black';
+		document.getElementById("komorka19").style.border = 'solid 0px black';
+		document.getElementById("komorka20").style.border = 'solid 0px black';
+		document.getElementById("komorka21").style.border = 'solid 0px black';
+		document.getElementById("komorka22").style.border = 'solid 0px black';
+		document.getElementById("komorka23").style.border = 'solid 0px black';
+		document.getElementById("komorka24").style.border = 'solid 0px black';
+		document.getElementById("komorka25").style.border = 'solid 0px black';	
+		}
+		else if (hms<3 && (hqa>27 && hqa<55))
+		{
+		document.getElementById("KLASA_WYNIK").innerHTML = 'III – stan umiarkowany';
+		document.getElementById("komorka1").style.border = 'solid 0px black';
+		document.getElementById("komorka2").style.border = 'solid 0px black';
+		document.getElementById("komorka3").style.border = 'solid 0px black';
+		document.getElementById("komorka4").style.border = 'solid 3px black';
+		document.getElementById("komorka5").style.border = 'solid 0px black';
+		document.getElementById("komorka6").style.border = 'solid 0px black';
+		document.getElementById("komorka7").style.border = 'solid 0px black';
+		document.getElementById("komorka8").style.border = 'solid 0px black';
+		document.getElementById("komorka9").style.border = 'solid 0px black';
+		document.getElementById("komorka10").style.border = 'solid 0px black';
+		document.getElementById("komorka11").style.border = 'solid 0px black';
+		document.getElementById("komorka12").style.border = 'solid 0px black';
+		document.getElementById("komorka13").style.border = 'solid 0px black';
+		document.getElementById("komorka14").style.border = 'solid 0px black';
+		document.getElementById("komorka15").style.border = 'solid 0px black';
+		document.getElementById("komorka16").style.border = 'solid 0px black';
+		document.getElementById("komorka17").style.border = 'solid 0px black';
+		document.getElementById("komorka18").style.border = 'solid 0px black';
+		document.getElementById("komorka19").style.border = 'solid 0px black';
+		document.getElementById("komorka20").style.border = 'solid 0px black';
+		document.getElementById("komorka21").style.border = 'solid 0px black';
+		document.getElementById("komorka22").style.border = 'solid 0px black';
+		document.getElementById("komorka23").style.border = 'solid 0px black';
+		document.getElementById("komorka24").style.border = 'solid 0px black';
+		document.getElementById("komorka25").style.border = 'solid 0px black';	
+		}
+		else if (hms<3 && hqa<28)
+		{
+		document.getElementById("KLASA_WYNIK").innerHTML = 'III – stan umiarkowany';
+		document.getElementById("komorka1").style.border = 'solid 0px black';
+		document.getElementById("komorka2").style.border = 'solid 0px black';
+		document.getElementById("komorka3").style.border = 'solid 0px black';
+		document.getElementById("komorka4").style.border = 'solid 0px black';
+		document.getElementById("komorka5").style.border = 'solid 3px black';
+		document.getElementById("komorka6").style.border = 'solid 0px black';
+		document.getElementById("komorka7").style.border = 'solid 0px black';
+		document.getElementById("komorka8").style.border = 'solid 0px black';
+		document.getElementById("komorka9").style.border = 'solid 0px black';
+		document.getElementById("komorka10").style.border = 'solid 0px black';
+		document.getElementById("komorka11").style.border = 'solid 0px black';
+		document.getElementById("komorka12").style.border = 'solid 0px black';
+		document.getElementById("komorka13").style.border = 'solid 0px black';
+		document.getElementById("komorka14").style.border = 'solid 0px black';
+		document.getElementById("komorka15").style.border = 'solid 0px black';
+		document.getElementById("komorka16").style.border = 'solid 0px black';
+		document.getElementById("komorka17").style.border = 'solid 0px black';
+		document.getElementById("komorka18").style.border = 'solid 0px black';
+		document.getElementById("komorka19").style.border = 'solid 0px black';
+		document.getElementById("komorka20").style.border = 'solid 0px black';
+		document.getElementById("komorka21").style.border = 'solid 0px black';
+		document.getElementById("komorka22").style.border = 'solid 0px black';
+		document.getElementById("komorka23").style.border = 'solid 0px black';
+		document.getElementById("komorka24").style.border = 'solid 0px black';
+		document.getElementById("komorka25").style.border = 'solid 0px black';	
+		}
+		//rzad2
+		else if ((hms>2 && hms<9) && hqa>108)
+		{
+		document.getElementById("KLASA_WYNIK").innerHTML = 'II – stan dobry';
+		document.getElementById("komorka1").style.border = 'solid 0px black';
+		document.getElementById("komorka2").style.border = 'solid 0px black';
+		document.getElementById("komorka3").style.border = 'solid 0px black';
+		document.getElementById("komorka4").style.border = 'solid 0px black';
+		document.getElementById("komorka5").style.border = 'solid 0px black';
+		document.getElementById("komorka6").style.border = 'solid 3px black';
+		document.getElementById("komorka7").style.border = 'solid 0px black';
+		document.getElementById("komorka8").style.border = 'solid 0px black';
+		document.getElementById("komorka9").style.border = 'solid 0px black';
+		document.getElementById("komorka10").style.border = 'solid 0px black';
+		document.getElementById("komorka11").style.border = 'solid 0px black';
+		document.getElementById("komorka12").style.border = 'solid 0px black';
+		document.getElementById("komorka13").style.border = 'solid 0px black';
+		document.getElementById("komorka14").style.border = 'solid 0px black';
+		document.getElementById("komorka15").style.border = 'solid 0px black';
+		document.getElementById("komorka16").style.border = 'solid 0px black';
+		document.getElementById("komorka17").style.border = 'solid 0px black';
+		document.getElementById("komorka18").style.border = 'solid 0px black';
+		document.getElementById("komorka19").style.border = 'solid 0px black';
+		document.getElementById("komorka20").style.border = 'solid 0px black';
+		document.getElementById("komorka21").style.border = 'solid 0px black';
+		document.getElementById("komorka22").style.border = 'solid 0px black';
+		document.getElementById("komorka23").style.border = 'solid 0px black';
+		document.getElementById("komorka24").style.border = 'solid 0px black';
+		document.getElementById("komorka25").style.border = 'solid 0px black';	
+		}
+		else if ((hms>2 && hms<9) && (hqa>81 && hqa<109))
+		{
+		document.getElementById("KLASA_WYNIK").innerHTML = 'II – stan dobry';
+		document.getElementById("komorka1").style.border = 'solid 0px black';
+		document.getElementById("komorka2").style.border = 'solid 0px black';
+		document.getElementById("komorka3").style.border = 'solid 0px black';
+		document.getElementById("komorka4").style.border = 'solid 0px black';
+		document.getElementById("komorka5").style.border = 'solid 0px black';
+		document.getElementById("komorka6").style.border = 'solid 0px black';
+		document.getElementById("komorka7").style.border = 'solid 3px black';
+		document.getElementById("komorka8").style.border = 'solid 0px black';
+		document.getElementById("komorka9").style.border = 'solid 0px black';
+		document.getElementById("komorka10").style.border = 'solid 0px black';
+		document.getElementById("komorka11").style.border = 'solid 0px black';
+		document.getElementById("komorka12").style.border = 'solid 0px black';
+		document.getElementById("komorka13").style.border = 'solid 0px black';
+		document.getElementById("komorka14").style.border = 'solid 0px black';
+		document.getElementById("komorka15").style.border = 'solid 0px black';
+		document.getElementById("komorka16").style.border = 'solid 0px black';
+		document.getElementById("komorka17").style.border = 'solid 0px black';
+		document.getElementById("komorka18").style.border = 'solid 0px black';
+		document.getElementById("komorka19").style.border = 'solid 0px black';
+		document.getElementById("komorka20").style.border = 'solid 0px black';
+		document.getElementById("komorka21").style.border = 'solid 0px black';
+		document.getElementById("komorka22").style.border = 'solid 0px black';
+		document.getElementById("komorka23").style.border = 'solid 0px black';
+		document.getElementById("komorka24").style.border = 'solid 0px black';
+		document.getElementById("komorka25").style.border = 'solid 0px black';	
+		}
+		else if ((hms>2 && hms<9) && (hqa>54 && hqa<82))
+		{
+		document.getElementById("KLASA_WYNIK").innerHTML = 'III – stan umiarkowany';
+		document.getElementById("komorka1").style.border = 'solid 0px black';
+		document.getElementById("komorka2").style.border = 'solid 0px black';
+		document.getElementById("komorka3").style.border = 'solid 0px black';
+		document.getElementById("komorka4").style.border = 'solid 0px black';
+		document.getElementById("komorka5").style.border = 'solid 0px black';
+		document.getElementById("komorka6").style.border = 'solid 0px black';
+		document.getElementById("komorka7").style.border = 'solid 0px black';
+		document.getElementById("komorka8").style.border = 'solid 3px black';
+		document.getElementById("komorka9").style.border = 'solid 0px black';
+		document.getElementById("komorka10").style.border = 'solid 0px black';
+		document.getElementById("komorka11").style.border = 'solid 0px black';
+		document.getElementById("komorka12").style.border = 'solid 0px black';
+		document.getElementById("komorka13").style.border = 'solid 0px black';
+		document.getElementById("komorka14").style.border = 'solid 0px black';
+		document.getElementById("komorka15").style.border = 'solid 0px black';
+		document.getElementById("komorka16").style.border = 'solid 0px black';
+		document.getElementById("komorka17").style.border = 'solid 0px black';
+		document.getElementById("komorka18").style.border = 'solid 0px black';
+		document.getElementById("komorka19").style.border = 'solid 0px black';
+		document.getElementById("komorka20").style.border = 'solid 0px black';
+		document.getElementById("komorka21").style.border = 'solid 0px black';
+		document.getElementById("komorka22").style.border = 'solid 0px black';
+		document.getElementById("komorka23").style.border = 'solid 0px black';
+		document.getElementById("komorka24").style.border = 'solid 0px black';
+		document.getElementById("komorka25").style.border = 'solid 0px black';	
+		}
+		else if ((hms>2 && hms<9) && (hqa>27 && hqa<55))
+		{
+		document.getElementById("KLASA_WYNIK").innerHTML = 'III – stan umiarkowany';
+		document.getElementById("komorka1").style.border = 'solid 0px black';
+		document.getElementById("komorka2").style.border = 'solid 0px black';
+		document.getElementById("komorka3").style.border = 'solid 0px black';
+		document.getElementById("komorka4").style.border = 'solid 0px black';
+		document.getElementById("komorka5").style.border = 'solid 0px black';
+		document.getElementById("komorka6").style.border = 'solid 0px black';
+		document.getElementById("komorka7").style.border = 'solid 0px black';
+		document.getElementById("komorka8").style.border = 'solid 0px black';
+		document.getElementById("komorka9").style.border = 'solid 3px black';
+		document.getElementById("komorka10").style.border = 'solid 0px black';
+		document.getElementById("komorka11").style.border = 'solid 0px black';
+		document.getElementById("komorka12").style.border = 'solid 0px black';
+		document.getElementById("komorka13").style.border = 'solid 0px black';
+		document.getElementById("komorka14").style.border = 'solid 0px black';
+		document.getElementById("komorka15").style.border = 'solid 0px black';
+		document.getElementById("komorka16").style.border = 'solid 0px black';
+		document.getElementById("komorka17").style.border = 'solid 0px black';
+		document.getElementById("komorka18").style.border = 'solid 0px black';
+		document.getElementById("komorka19").style.border = 'solid 0px black';
+		document.getElementById("komorka20").style.border = 'solid 0px black';
+		document.getElementById("komorka21").style.border = 'solid 0px black';
+		document.getElementById("komorka22").style.border = 'solid 0px black';
+		document.getElementById("komorka23").style.border = 'solid 0px black';
+		document.getElementById("komorka24").style.border = 'solid 0px black';
+		document.getElementById("komorka25").style.border = 'solid 0px black';	
+		}
+		else if ((hms>2 && hms<9) && hqa<28)
+		{
+		document.getElementById("KLASA_WYNIK").innerHTML = 'IV – stan słaby';
+		document.getElementById("komorka1").style.border = 'solid 0px black';
+		document.getElementById("komorka2").style.border = 'solid 0px black';
+		document.getElementById("komorka3").style.border = 'solid 0px black';
+		document.getElementById("komorka4").style.border = 'solid 0px black';
+		document.getElementById("komorka5").style.border = 'solid 0px black';
+		document.getElementById("komorka6").style.border = 'solid 0px black';
+		document.getElementById("komorka7").style.border = 'solid 0px black';
+		document.getElementById("komorka8").style.border = 'solid 0px black';
+		document.getElementById("komorka9").style.border = 'solid 0px black';
+		document.getElementById("komorka10").style.border = 'solid 3px black';
+		document.getElementById("komorka11").style.border = 'solid 0px black';
+		document.getElementById("komorka12").style.border = 'solid 0px black';
+		document.getElementById("komorka13").style.border = 'solid 0px black';
+		document.getElementById("komorka14").style.border = 'solid 0px black';
+		document.getElementById("komorka15").style.border = 'solid 0px black';
+		document.getElementById("komorka16").style.border = 'solid 0px black';
+		document.getElementById("komorka17").style.border = 'solid 0px black';
+		document.getElementById("komorka18").style.border = 'solid 0px black';
+		document.getElementById("komorka19").style.border = 'solid 0px black';
+		document.getElementById("komorka20").style.border = 'solid 0px black';
+		document.getElementById("komorka21").style.border = 'solid 0px black';
+		document.getElementById("komorka22").style.border = 'solid 0px black';
+		document.getElementById("komorka23").style.border = 'solid 0px black';
+		document.getElementById("komorka24").style.border = 'solid 0px black';
+		document.getElementById("komorka25").style.border = 'solid 0px black';	
+		}
+		//rzad3
+		else if ((hms>8 && hms<21) && hqa>108)
+		{
+		document.getElementById("KLASA_WYNIK").innerHTML = 'III – stan umiarkowany';
+		document.getElementById("komorka1").style.border = 'solid 0px black';
+		document.getElementById("komorka2").style.border = 'solid 0px black';
+		document.getElementById("komorka3").style.border = 'solid 0px black';
+		document.getElementById("komorka4").style.border = 'solid 0px black';
+		document.getElementById("komorka5").style.border = 'solid 0px black';
+		document.getElementById("komorka6").style.border = 'solid 0px black';
+		document.getElementById("komorka7").style.border = 'solid 0px black';
+		document.getElementById("komorka8").style.border = 'solid 0px black';
+		document.getElementById("komorka9").style.border = 'solid 0px black';
+		document.getElementById("komorka10").style.border = 'solid 0px black';
+		document.getElementById("komorka11").style.border = 'solid 3px black';
+		document.getElementById("komorka12").style.border = 'solid 0px black';
+		document.getElementById("komorka13").style.border = 'solid 0px black';
+		document.getElementById("komorka14").style.border = 'solid 0px black';
+		document.getElementById("komorka15").style.border = 'solid 0px black';
+		document.getElementById("komorka16").style.border = 'solid 0px black';
+		document.getElementById("komorka17").style.border = 'solid 0px black';
+		document.getElementById("komorka18").style.border = 'solid 0px black';
+		document.getElementById("komorka19").style.border = 'solid 0px black';
+		document.getElementById("komorka20").style.border = 'solid 0px black';
+		document.getElementById("komorka21").style.border = 'solid 0px black';
+		document.getElementById("komorka22").style.border = 'solid 0px black';
+		document.getElementById("komorka23").style.border = 'solid 0px black';
+		document.getElementById("komorka24").style.border = 'solid 0px black';
+		document.getElementById("komorka25").style.border = 'solid 0px black';	
+		}
+		else if ((hms>8 && hms<21) && (hqa>81 && hqa<109))
+		{
+		document.getElementById("KLASA_WYNIK").innerHTML = 'III – stan umiarkowany';
+		document.getElementById("komorka1").style.border = 'solid 0px black';
+		document.getElementById("komorka2").style.border = 'solid 0px black';
+		document.getElementById("komorka3").style.border = 'solid 0px black';
+		document.getElementById("komorka4").style.border = 'solid 0px black';
+		document.getElementById("komorka5").style.border = 'solid 0px black';
+		document.getElementById("komorka6").style.border = 'solid 0px black';
+		document.getElementById("komorka7").style.border = 'solid 0px black';
+		document.getElementById("komorka8").style.border = 'solid 0px black';
+		document.getElementById("komorka9").style.border = 'solid 0px black';
+		document.getElementById("komorka10").style.border = 'solid 0px black';
+		document.getElementById("komorka11").style.border = 'solid 0px black';
+		document.getElementById("komorka12").style.border = 'solid 3px black';
+		document.getElementById("komorka13").style.border = 'solid 0px black';
+		document.getElementById("komorka14").style.border = 'solid 0px black';
+		document.getElementById("komorka15").style.border = 'solid 0px black';
+		document.getElementById("komorka16").style.border = 'solid 0px black';
+		document.getElementById("komorka17").style.border = 'solid 0px black';
+		document.getElementById("komorka18").style.border = 'solid 0px black';
+		document.getElementById("komorka19").style.border = 'solid 0px black';
+		document.getElementById("komorka20").style.border = 'solid 0px black';
+		document.getElementById("komorka21").style.border = 'solid 0px black';
+		document.getElementById("komorka22").style.border = 'solid 0px black';
+		document.getElementById("komorka23").style.border = 'solid 0px black';
+		document.getElementById("komorka24").style.border = 'solid 0px black';
+		document.getElementById("komorka25").style.border = 'solid 0px black';	
+		}
+		else if ((hms>8 && hms<21) && (hqa>54 && hqa<82))
+		{
+		document.getElementById("KLASA_WYNIK").innerHTML = 'III – stan umiarkowany';
+		document.getElementById("komorka1").style.border = 'solid 0px black';
+		document.getElementById("komorka2").style.border = 'solid 0px black';
+		document.getElementById("komorka3").style.border = 'solid 0px black';
+		document.getElementById("komorka4").style.border = 'solid 0px black';
+		document.getElementById("komorka5").style.border = 'solid 0px black';
+		document.getElementById("komorka6").style.border = 'solid 0px black';
+		document.getElementById("komorka7").style.border = 'solid 0px black';
+		document.getElementById("komorka8").style.border = 'solid 0px black';
+		document.getElementById("komorka9").style.border = 'solid 0px black';
+		document.getElementById("komorka10").style.border = 'solid 0px black';
+		document.getElementById("komorka11").style.border = 'solid 0px black';
+		document.getElementById("komorka12").style.border = 'solid 0px black';
+		document.getElementById("komorka13").style.border = 'solid 3px black';
+		document.getElementById("komorka14").style.border = 'solid 0px black';
+		document.getElementById("komorka15").style.border = 'solid 0px black';
+		document.getElementById("komorka16").style.border = 'solid 0px black';
+		document.getElementById("komorka17").style.border = 'solid 0px black';
+		document.getElementById("komorka18").style.border = 'solid 0px black';
+		document.getElementById("komorka19").style.border = 'solid 0px black';
+		document.getElementById("komorka20").style.border = 'solid 0px black';
+		document.getElementById("komorka21").style.border = 'solid 0px black';
+		document.getElementById("komorka22").style.border = 'solid 0px black';
+		document.getElementById("komorka23").style.border = 'solid 0px black';
+		document.getElementById("komorka24").style.border = 'solid 0px black';
+		document.getElementById("komorka25").style.border = 'solid 0px black';	
+		}
+		else if ((hms>8 && hms<21) && (hqa>27 && hqa<55))
+		{
+		document.getElementById("KLASA_WYNIK").innerHTML = 'IV – stan słaby';
+		document.getElementById("komorka1").style.border = 'solid 0px black';
+		document.getElementById("komorka2").style.border = 'solid 0px black';
+		document.getElementById("komorka3").style.border = 'solid 0px black';
+		document.getElementById("komorka4").style.border = 'solid 0px black';
+		document.getElementById("komorka5").style.border = 'solid 0px black';
+		document.getElementById("komorka6").style.border = 'solid 0px black';
+		document.getElementById("komorka7").style.border = 'solid 0px black';
+		document.getElementById("komorka8").style.border = 'solid 0px black';
+		document.getElementById("komorka9").style.border = 'solid 0px black';
+		document.getElementById("komorka10").style.border = 'solid 0px black';
+		document.getElementById("komorka11").style.border = 'solid 0px black';
+		document.getElementById("komorka12").style.border = 'solid 0px black';
+		document.getElementById("komorka13").style.border = 'solid 0px black';
+		document.getElementById("komorka14").style.border = 'solid 3px black';
+		document.getElementById("komorka15").style.border = 'solid 0px black';
+		document.getElementById("komorka16").style.border = 'solid 0px black';
+		document.getElementById("komorka17").style.border = 'solid 0px black';
+		document.getElementById("komorka18").style.border = 'solid 0px black';
+		document.getElementById("komorka19").style.border = 'solid 0px black';
+		document.getElementById("komorka20").style.border = 'solid 0px black';
+		document.getElementById("komorka21").style.border = 'solid 0px black';
+		document.getElementById("komorka22").style.border = 'solid 0px black';
+		document.getElementById("komorka23").style.border = 'solid 0px black';
+		document.getElementById("komorka24").style.border = 'solid 0px black';
+		document.getElementById("komorka25").style.border = 'solid 0px black';	
+		}
+		else if ((hms>8 && hms<21) && hqa<28)
+		{
+		document.getElementById("KLASA_WYNIK").innerHTML = 'IV – stan słaby';
+		document.getElementById("komorka1").style.border = 'solid 0px black';
+		document.getElementById("komorka2").style.border = 'solid 0px black';
+		document.getElementById("komorka3").style.border = 'solid 0px black';
+		document.getElementById("komorka4").style.border = 'solid 0px black';
+		document.getElementById("komorka5").style.border = 'solid 0px black';
+		document.getElementById("komorka6").style.border = 'solid 0px black';
+		document.getElementById("komorka7").style.border = 'solid 0px black';
+		document.getElementById("komorka8").style.border = 'solid 0px black';
+		document.getElementById("komorka9").style.border = 'solid 0px black';
+		document.getElementById("komorka10").style.border = 'solid 0px black';
+		document.getElementById("komorka11").style.border = 'solid 0px black';
+		document.getElementById("komorka12").style.border = 'solid 0px black';
+		document.getElementById("komorka13").style.border = 'solid 0px black';
+		document.getElementById("komorka14").style.border = 'solid 0px black';
+		document.getElementById("komorka15").style.border = 'solid 3px black';
+		document.getElementById("komorka16").style.border = 'solid 0px black';
+		document.getElementById("komorka17").style.border = 'solid 0px black';
+		document.getElementById("komorka18").style.border = 'solid 0px black';
+		document.getElementById("komorka19").style.border = 'solid 0px black';
+		document.getElementById("komorka20").style.border = 'solid 0px black';
+		document.getElementById("komorka21").style.border = 'solid 0px black';
+		document.getElementById("komorka22").style.border = 'solid 0px black';
+		document.getElementById("komorka23").style.border = 'solid 0px black';
+		document.getElementById("komorka24").style.border = 'solid 0px black';
+		document.getElementById("komorka25").style.border = 'solid 0px black';	
+		}
+		//rzad4
+		else if ((hms>20 && hms<45) && hqa>108)
+		{
+		document.getElementById("KLASA_WYNIK").innerHTML = 'III – stan umiarkowany';
+		document.getElementById("komorka1").style.border = 'solid 0px black';
+		document.getElementById("komorka2").style.border = 'solid 0px black';
+		document.getElementById("komorka3").style.border = 'solid 0px black';
+		document.getElementById("komorka4").style.border = 'solid 0px black';
+		document.getElementById("komorka5").style.border = 'solid 0px black';
+		document.getElementById("komorka6").style.border = 'solid 0px black';
+		document.getElementById("komorka7").style.border = 'solid 0px black';
+		document.getElementById("komorka8").style.border = 'solid 0px black';
+		document.getElementById("komorka9").style.border = 'solid 0px black';
+		document.getElementById("komorka10").style.border = 'solid 0px black';
+		document.getElementById("komorka11").style.border = 'solid 0px black';
+		document.getElementById("komorka12").style.border = 'solid 0px black';
+		document.getElementById("komorka13").style.border = 'solid 0px black';
+		document.getElementById("komorka14").style.border = 'solid 0px black';
+		document.getElementById("komorka15").style.border = 'solid 0px black';
+		document.getElementById("komorka16").style.border = 'solid 3px black';
+		document.getElementById("komorka17").style.border = 'solid 0px black';
+		document.getElementById("komorka18").style.border = 'solid 0px black';
+		document.getElementById("komorka19").style.border = 'solid 0px black';
+		document.getElementById("komorka20").style.border = 'solid 0px black';
+		document.getElementById("komorka21").style.border = 'solid 0px black';
+		document.getElementById("komorka22").style.border = 'solid 0px black';
+		document.getElementById("komorka23").style.border = 'solid 0px black';
+		document.getElementById("komorka24").style.border = 'solid 0px black';
+		document.getElementById("komorka25").style.border = 'solid 0px black';	
+		}
+		else if ((hms>20 && hms<45) && (hqa>81 && hqa<109))
+		{
+		document.getElementById("KLASA_WYNIK").innerHTML = 'IV – stan słaby';
+		document.getElementById("komorka1").style.border = 'solid 0px black';
+		document.getElementById("komorka2").style.border = 'solid 0px black';
+		document.getElementById("komorka3").style.border = 'solid 0px black';
+		document.getElementById("komorka4").style.border = 'solid 0px black';
+		document.getElementById("komorka5").style.border = 'solid 0px black';
+		document.getElementById("komorka6").style.border = 'solid 0px black';
+		document.getElementById("komorka7").style.border = 'solid 0px black';
+		document.getElementById("komorka8").style.border = 'solid 0px black';
+		document.getElementById("komorka9").style.border = 'solid 0px black';
+		document.getElementById("komorka10").style.border = 'solid 0px black';
+		document.getElementById("komorka11").style.border = 'solid 0px black';
+		document.getElementById("komorka12").style.border = 'solid 0px black';
+		document.getElementById("komorka13").style.border = 'solid 0px black';
+		document.getElementById("komorka14").style.border = 'solid 0px black';
+		document.getElementById("komorka15").style.border = 'solid 0px black';
+		document.getElementById("komorka16").style.border = 'solid 0px black';
+		document.getElementById("komorka17").style.border = 'solid 3px black';
+		document.getElementById("komorka18").style.border = 'solid 0px black';
+		document.getElementById("komorka19").style.border = 'solid 0px black';
+		document.getElementById("komorka20").style.border = 'solid 0px black';
+		document.getElementById("komorka21").style.border = 'solid 0px black';
+		document.getElementById("komorka22").style.border = 'solid 0px black';
+		document.getElementById("komorka23").style.border = 'solid 0px black';
+		document.getElementById("komorka24").style.border = 'solid 0px black';
+		document.getElementById("komorka25").style.border = 'solid 0px black';	
+		}
+		else if ((hms>20 && hms<45) && (hqa>54 && hqa<82))
+		{
+		document.getElementById("KLASA_WYNIK").innerHTML = 'IV – stan słaby';
+		document.getElementById("komorka1").style.border = 'solid 0px black';
+		document.getElementById("komorka2").style.border = 'solid 0px black';
+		document.getElementById("komorka3").style.border = 'solid 0px black';
+		document.getElementById("komorka4").style.border = 'solid 0px black';
+		document.getElementById("komorka5").style.border = 'solid 0px black';
+		document.getElementById("komorka6").style.border = 'solid 0px black';
+		document.getElementById("komorka7").style.border = 'solid 0px black';
+		document.getElementById("komorka8").style.border = 'solid 0px black';
+		document.getElementById("komorka9").style.border = 'solid 0px black';
+		document.getElementById("komorka10").style.border = 'solid 0px black';
+		document.getElementById("komorka11").style.border = 'solid 0px black';
+		document.getElementById("komorka12").style.border = 'solid 0px black';
+		document.getElementById("komorka13").style.border = 'solid 0px black';
+		document.getElementById("komorka14").style.border = 'solid 0px black';
+		document.getElementById("komorka15").style.border = 'solid 0px black';
+		document.getElementById("komorka16").style.border = 'solid 0px black';
+		document.getElementById("komorka17").style.border = 'solid 0px black';
+		document.getElementById("komorka18").style.border = 'solid 3px black';
+		document.getElementById("komorka19").style.border = 'solid 0px black';
+		document.getElementById("komorka20").style.border = 'solid 0px black';
+		document.getElementById("komorka21").style.border = 'solid 0px black';
+		document.getElementById("komorka22").style.border = 'solid 0px black';
+		document.getElementById("komorka23").style.border = 'solid 0px black';
+		document.getElementById("komorka24").style.border = 'solid 0px black';
+		document.getElementById("komorka25").style.border = 'solid 0px black';	
+		}
+		else if ((hms>20 && hms<45) && (hqa>27 && hqa<55))
+		{
+		document.getElementById("KLASA_WYNIK").innerHTML = 'IV – stan słaby';
+		document.getElementById("komorka1").style.border = 'solid 0px black';
+		document.getElementById("komorka2").style.border = 'solid 0px black';
+		document.getElementById("komorka3").style.border = 'solid 0px black';
+		document.getElementById("komorka4").style.border = 'solid 0px black';
+		document.getElementById("komorka5").style.border = 'solid 0px black';
+		document.getElementById("komorka6").style.border = 'solid 0px black';
+		document.getElementById("komorka7").style.border = 'solid 0px black';
+		document.getElementById("komorka8").style.border = 'solid 0px black';
+		document.getElementById("komorka9").style.border = 'solid 0px black';
+		document.getElementById("komorka10").style.border = 'solid 0px black';
+		document.getElementById("komorka11").style.border = 'solid 0px black';
+		document.getElementById("komorka12").style.border = 'solid 0px black';
+		document.getElementById("komorka13").style.border = 'solid 0px black';
+		document.getElementById("komorka14").style.border = 'solid 0px black';
+		document.getElementById("komorka15").style.border = 'solid 0px black';
+		document.getElementById("komorka16").style.border = 'solid 0px black';
+		document.getElementById("komorka17").style.border = 'solid 0px black';
+		document.getElementById("komorka18").style.border = 'solid 0px black';
+		document.getElementById("komorka19").style.border = 'solid 3px black';
+		document.getElementById("komorka20").style.border = 'solid 0px black';
+		document.getElementById("komorka21").style.border = 'solid 0px black';
+		document.getElementById("komorka22").style.border = 'solid 0px black';
+		document.getElementById("komorka23").style.border = 'solid 0px black';
+		document.getElementById("komorka24").style.border = 'solid 0px black';
+		document.getElementById("komorka25").style.border = 'solid 0px black';	
+		}
+		else if ((hms>20 && hms<45) && hqa<28)
+		{
+		document.getElementById("KLASA_WYNIK").innerHTML = 'V – stan zły';
+		document.getElementById("komorka1").style.border = 'solid 0px black';
+		document.getElementById("komorka2").style.border = 'solid 0px black';
+		document.getElementById("komorka3").style.border = 'solid 0px black';
+		document.getElementById("komorka4").style.border = 'solid 0px black';
+		document.getElementById("komorka5").style.border = 'solid 0px black';
+		document.getElementById("komorka6").style.border = 'solid 0px black';
+		document.getElementById("komorka7").style.border = 'solid 0px black';
+		document.getElementById("komorka8").style.border = 'solid 0px black';
+		document.getElementById("komorka9").style.border = 'solid 0px black';
+		document.getElementById("komorka10").style.border = 'solid 0px black';
+		document.getElementById("komorka11").style.border = 'solid 0px black';
+		document.getElementById("komorka12").style.border = 'solid 0px black';
+		document.getElementById("komorka13").style.border = 'solid 0px black';
+		document.getElementById("komorka14").style.border = 'solid 0px black';
+		document.getElementById("komorka15").style.border = 'solid 0px black';
+		document.getElementById("komorka16").style.border = 'solid 0px black';
+		document.getElementById("komorka17").style.border = 'solid 0px black';
+		document.getElementById("komorka18").style.border = 'solid 0px black';
+		document.getElementById("komorka19").style.border = 'solid 0px black';
+		document.getElementById("komorka20").style.border = 'solid 3px black';
+		document.getElementById("komorka21").style.border = 'solid 0px black';
+		document.getElementById("komorka22").style.border = 'solid 0px black';
+		document.getElementById("komorka23").style.border = 'solid 0px black';
+		document.getElementById("komorka24").style.border = 'solid 0px black';
+		document.getElementById("komorka25").style.border = 'solid 0px black';	
+		}
+		//rzad5
+		else if ((hms>45 || hms==45) && hqa>108)
+		{
+		document.getElementById("KLASA_WYNIK").innerHTML = 'IV – stan słaby';
+		document.getElementById("komorka1").style.border = 'solid 0px black';
+		document.getElementById("komorka2").style.border = 'solid 0px black';
+		document.getElementById("komorka3").style.border = 'solid 0px black';
+		document.getElementById("komorka4").style.border = 'solid 0px black';
+		document.getElementById("komorka5").style.border = 'solid 0px black';
+		document.getElementById("komorka6").style.border = 'solid 0px black';
+		document.getElementById("komorka7").style.border = 'solid 0px black';
+		document.getElementById("komorka8").style.border = 'solid 0px black';
+		document.getElementById("komorka9").style.border = 'solid 0px black';
+		document.getElementById("komorka10").style.border = 'solid 0px black';
+		document.getElementById("komorka11").style.border = 'solid 0px black';
+		document.getElementById("komorka12").style.border = 'solid 0px black';
+		document.getElementById("komorka13").style.border = 'solid 0px black';
+		document.getElementById("komorka14").style.border = 'solid 0px black';
+		document.getElementById("komorka15").style.border = 'solid 0px black';
+		document.getElementById("komorka16").style.border = 'solid 0px black';
+		document.getElementById("komorka17").style.border = 'solid 0px black';
+		document.getElementById("komorka18").style.border = 'solid 0px black';
+		document.getElementById("komorka19").style.border = 'solid 0px black';
+		document.getElementById("komorka20").style.border = 'solid 0px black';
+		document.getElementById("komorka21").style.border = 'solid 3px black';
+		document.getElementById("komorka22").style.border = 'solid 0px black';
+		document.getElementById("komorka23").style.border = 'solid 0px black';
+		document.getElementById("komorka24").style.border = 'solid 0px black';
+		document.getElementById("komorka25").style.border = 'solid 0px black';	
+		}
+		else if ((hms>45 || hms==45) && (hqa>81 && hqa<109))
+		{
+		document.getElementById("KLASA_WYNIK").innerHTML = 'IV – stan słaby';
+		document.getElementById("komorka1").style.border = 'solid 0px black';
+		document.getElementById("komorka2").style.border = 'solid 0px black';
+		document.getElementById("komorka3").style.border = 'solid 0px black';
+		document.getElementById("komorka4").style.border = 'solid 0px black';
+		document.getElementById("komorka5").style.border = 'solid 0px black';
+		document.getElementById("komorka6").style.border = 'solid 0px black';
+		document.getElementById("komorka7").style.border = 'solid 0px black';
+		document.getElementById("komorka8").style.border = 'solid 0px black';
+		document.getElementById("komorka9").style.border = 'solid 0px black';
+		document.getElementById("komorka10").style.border = 'solid 0px black';
+		document.getElementById("komorka11").style.border = 'solid 0px black';
+		document.getElementById("komorka12").style.border = 'solid 0px black';
+		document.getElementById("komorka13").style.border = 'solid 0px black';
+		document.getElementById("komorka14").style.border = 'solid 0px black';
+		document.getElementById("komorka15").style.border = 'solid 0px black';
+		document.getElementById("komorka16").style.border = 'solid 0px black';
+		document.getElementById("komorka17").style.border = 'solid 0px black';
+		document.getElementById("komorka18").style.border = 'solid 0px black';
+		document.getElementById("komorka19").style.border = 'solid 0px black';
+		document.getElementById("komorka20").style.border = 'solid 0px black';
+		document.getElementById("komorka21").style.border = 'solid 0px black';
+		document.getElementById("komorka22").style.border = 'solid 3px black';
+		document.getElementById("komorka23").style.border = 'solid 0px black';
+		document.getElementById("komorka24").style.border = 'solid 0px black';
+		document.getElementById("komorka25").style.border = 'solid 0px black';	
+		}
+		else if ((hms>45 || hms==45) && (hqa>54 && hqa<82))
+		{
+		document.getElementById("KLASA_WYNIK").innerHTML = 'V – stan zły';
+		document.getElementById("komorka1").style.border = 'solid 0px black';
+		document.getElementById("komorka2").style.border = 'solid 0px black';
+		document.getElementById("komorka3").style.border = 'solid 0px black';
+		document.getElementById("komorka4").style.border = 'solid 0px black';
+		document.getElementById("komorka5").style.border = 'solid 0px black';
+		document.getElementById("komorka6").style.border = 'solid 0px black';
+		document.getElementById("komorka7").style.border = 'solid 0px black';
+		document.getElementById("komorka8").style.border = 'solid 0px black';
+		document.getElementById("komorka9").style.border = 'solid 0px black';
+		document.getElementById("komorka10").style.border = 'solid 0px black';
+		document.getElementById("komorka11").style.border = 'solid 0px black';
+		document.getElementById("komorka12").style.border = 'solid 0px black';
+		document.getElementById("komorka13").style.border = 'solid 0px black';
+		document.getElementById("komorka14").style.border = 'solid 0px black';
+		document.getElementById("komorka15").style.border = 'solid 0px black';
+		document.getElementById("komorka16").style.border = 'solid 0px black';
+		document.getElementById("komorka17").style.border = 'solid 0px black';
+		document.getElementById("komorka18").style.border = 'solid 0px black';
+		document.getElementById("komorka19").style.border = 'solid 0px black';
+		document.getElementById("komorka20").style.border = 'solid 0px black';
+		document.getElementById("komorka21").style.border = 'solid 0px black';
+		document.getElementById("komorka22").style.border = 'solid 0px black';
+		document.getElementById("komorka23").style.border = 'solid 3px black';
+		document.getElementById("komorka24").style.border = 'solid 0px black';
+		document.getElementById("komorka25").style.border = 'solid 0px black';	
+		}
+		else if ((hms>45 || hms==45) && (hqa>27 && hqa<55))
+		{
+		document.getElementById("KLASA_WYNIK").innerHTML = 'V – stan zły';
+		document.getElementById("komorka1").style.border = 'solid 0px black';
+		document.getElementById("komorka2").style.border = 'solid 0px black';
+		document.getElementById("komorka3").style.border = 'solid 0px black';
+		document.getElementById("komorka4").style.border = 'solid 0px black';
+		document.getElementById("komorka5").style.border = 'solid 0px black';
+		document.getElementById("komorka6").style.border = 'solid 0px black';
+		document.getElementById("komorka7").style.border = 'solid 0px black';
+		document.getElementById("komorka8").style.border = 'solid 0px black';
+		document.getElementById("komorka9").style.border = 'solid 0px black';
+		document.getElementById("komorka10").style.border = 'solid 0px black';
+		document.getElementById("komorka11").style.border = 'solid 0px black';
+		document.getElementById("komorka12").style.border = 'solid 0px black';
+		document.getElementById("komorka13").style.border = 'solid 0px black';
+		document.getElementById("komorka14").style.border = 'solid 0px black';
+		document.getElementById("komorka15").style.border = 'solid 0px black';
+		document.getElementById("komorka16").style.border = 'solid 0px black';
+		document.getElementById("komorka17").style.border = 'solid 0px black';
+		document.getElementById("komorka18").style.border = 'solid 0px black';
+		document.getElementById("komorka19").style.border = 'solid 0px black';
+		document.getElementById("komorka20").style.border = 'solid 0px black';
+		document.getElementById("komorka21").style.border = 'solid 0px black';
+		document.getElementById("komorka22").style.border = 'solid 0px black';
+		document.getElementById("komorka23").style.border = 'solid 0px black';
+		document.getElementById("komorka24").style.border = 'solid 3px black';
+		document.getElementById("komorka25").style.border = 'solid 0px black';	
+		}
+		else if ((hms>45 || hms==45) && hqa<28)
+		{
+		document.getElementById("KLASA_WYNIK").innerHTML = 'V – stan zły';
+		document.getElementById("komorka1").style.border = 'solid 0px black';
+		document.getElementById("komorka2").style.border = 'solid 0px black';
+		document.getElementById("komorka3").style.border = 'solid 0px black';
+		document.getElementById("komorka4").style.border = 'solid 0px black';
+		document.getElementById("komorka5").style.border = 'solid 0px black';
+		document.getElementById("komorka6").style.border = 'solid 0px black';
+		document.getElementById("komorka7").style.border = 'solid 0px black';
+		document.getElementById("komorka8").style.border = 'solid 0px black';
+		document.getElementById("komorka9").style.border = 'solid 0px black';
+		document.getElementById("komorka10").style.border = 'solid 0px black';
+		document.getElementById("komorka11").style.border = 'solid 0px black';
+		document.getElementById("komorka12").style.border = 'solid 0px black';
+		document.getElementById("komorka13").style.border = 'solid 0px black';
+		document.getElementById("komorka14").style.border = 'solid 0px black';
+		document.getElementById("komorka15").style.border = 'solid 0px black';
+		document.getElementById("komorka16").style.border = 'solid 0px black';
+		document.getElementById("komorka17").style.border = 'solid 0px black';
+		document.getElementById("komorka18").style.border = 'solid 0px black';
+		document.getElementById("komorka19").style.border = 'solid 0px black';
+		document.getElementById("komorka20").style.border = 'solid 0px black';
+		document.getElementById("komorka21").style.border = 'solid 0px black';
+		document.getElementById("komorka22").style.border = 'solid 0px black';
+		document.getElementById("komorka23").style.border = 'solid 0px black';
+		document.getElementById("komorka24").style.border = 'solid 0px black';
+		document.getElementById("komorka25").style.border = 'solid 3px black';	
+		}
+	}
+	else
+	{
+		document.getElementById("KLASA_WYNIK").innerHTML = 'Wskaźniki nie zostały obliczone poprawnie';
+		document.getElementById("komorka1").style.border = 'solid 0px black';
+		document.getElementById("komorka2").style.border = 'solid 0px black';
+		document.getElementById("komorka3").style.border = 'solid 0px black';
+		document.getElementById("komorka4").style.border = 'solid 0px black';
+		document.getElementById("komorka5").style.border = 'solid 0px black';
+		document.getElementById("komorka6").style.border = 'solid 0px black';
+		document.getElementById("komorka7").style.border = 'solid 0px black';
+		document.getElementById("komorka8").style.border = 'solid 0px black';
+		document.getElementById("komorka9").style.border = 'solid 0px black';
+		document.getElementById("komorka10").style.border = 'solid 0px black';
+		document.getElementById("komorka11").style.border = 'solid 0px black';
+		document.getElementById("komorka12").style.border = 'solid 0px black';
+		document.getElementById("komorka13").style.border = 'solid 0px black';
+		document.getElementById("komorka14").style.border = 'solid 0px black';
+		document.getElementById("komorka15").style.border = 'solid 0px black';
+		document.getElementById("komorka16").style.border = 'solid 0px black';
+		document.getElementById("komorka17").style.border = 'solid 0px black';
+		document.getElementById("komorka18").style.border = 'solid 0px black';
+		document.getElementById("komorka19").style.border = 'solid 0px black';
+		document.getElementById("komorka20").style.border = 'solid 0px black';
+		document.getElementById("komorka21").style.border = 'solid 0px black';
+		document.getElementById("komorka22").style.border = 'solid 0px black';
+		document.getElementById("komorka23").style.border = 'solid 0px black';
+		document.getElementById("komorka24").style.border = 'solid 0px black';
+		document.getElementById("komorka25").style.border = 'solid 0px black';	
+	}
+}
+</script>
+
+</head>
+
+<body>
+<div class="container">
+    <div class="title">RIVER HABITAT SURVEY 2010 PL</div>
+    <div class="header">A. INFORMACJE OGÓLNE DOTYCZĄCE BADANIA</div>
+    <div id="A">
+		<div style="width: 387px; border-right: 1px solid black; float: left;">
+			Numer odcinka badawczego: <input type="text" id="A1" style="width: 152px; text-align: center;">
+			<br><br>
+			<table id="tabela" border="0" cellpadding="10" rules="all">
+			<tr>
+				<td>GPS 1: <input type="text" id="A2" style="width: 60px; text-align: center; margin-left: 34px;"></td>
+				<td>N <input type="text" id="A3" style="width: 60px; text-align: center;"></td>
+				<td>E <input type="text" id="A4" style="width: 60px; text-align: center;"></td>
+			</tr>
+			<tr>
+				<td>GPS 6: <input type="text" id="A5" style="width: 60px; text-align: center; margin-left: 34px;"></td>
+				<td>N <input type="text" id="A6" style="width: 60px; text-align: center;"></td>
+				<td>E <input type="text" id="A7" style="width: 60px; text-align: center;"></td>
+			</tr>
+			<tr>
+				<td>GPS końca: <input type="text" id="A8" style="width: 60px; text-align: center;"></td>
+				<td>N <input type="text" id="A9" style="width: 60px; text-align: center;"></td>
+				<td>E <input type="text" id="A10" style="width: 60px; text-align: center;"></td>
+			</tr>
+			</table>
+			<br>
+			Nazwa odcinka badawczego: <input type="text" id="A11" style="width: 150px; text-align: center;"><br><br>
+			Nazwa rzeki: <input type="text" id="A12" style="width: 266px; text-align: center;"><br><br>
+			Data: <input type="text" id="A13" style="width: 121px; text-align: center;"> 
+			Godzina: <input type="text" id="A14" style="width: 121px; text-align: center;"><br><br>
+			Wykonujący badania: <input type="text" id="A15" style="width: 206px; text-align: center;"><br><br>
+			Kod akredytacyjny: <input type="text" id="A16" style="width: 222px; text-align: center;">
+		</div>
+		<div style="width: 595px; float: left; padding-left: 5px;">
+			Czy odcinek badawczy to rzeka czy sztuczny kanał? 
+			<span style="margin-left: 80px;">Rzeka</span> <input type="checkbox" id="A17"> Kanał <input type="checkbox" id="A18">
+			<hr color="black" size="1px" style="margin: 14px 0px 14px 0px;">
+			Czy występowały utrudnienia w badaniach?
+			<span style="margin-left: 159px;">Nie</span> <input type="checkbox" id="A19" style="margin-right: 19px;"> Tak <input type="checkbox" id="A20">
+			<hr color="black" size="1px" style="margin: 14px 0px 14px 0px;">
+			Jeśli tak, to jakie <input type="text" id="A21" style="width: 462px; text-align: center;">
+			<hr color="black" size="1px" style="margin: 14px 0px 14px 0px;">
+			Czy dno koryta jest widoczne? <span style="margin-left: 94px;">Słabo</span> <input type="checkbox" id="A22"> 
+			Częściowo  <input type="checkbox" id="A23"> Całkowicie  <input type="checkbox" id="A24">
+			<hr color="black" size="1px" style="margin: 14px 0px 14px 0px;">
+			Czy wypełniono Terenową Kartę BHP
+			<span style="margin-left: 203px;">Tak</span> <input type="checkbox" id="A25" style="margin-right: 19px;"> Nie <input type="checkbox" id="A26">
+			<hr color="black" size="1px" style="margin: 14px 0px 14px 0px;">
+			Liczba zrobionych fotografii: <input type="text" id="A27" style="width: 109px; text-align: center;"> 
+			oznaczenie fotografii: <input type="text" id="A28" style="width: 109px; text-align: center;">
+			<hr color="black" size="1px" style="margin: 14px 0px 14px 0px;">
+			Miejsce badania: <span style="margin-left: 178px;">lewy brzeg</span> <input type="checkbox" id="A29"> 
+			prawy brzeg <input type="checkbox" id="A30"> koryto <input type="checkbox" id="A31">
+			<hr color="black" size="1px" style="margin: 14px 0px 14px 0px;">
+			LEWY <span style="margin-left: 125px; margin-right: 125px;">brzegi, stojąc twarzą w dół rzeki</span> PRAWY
+		</div>
+		<div style="clear: both;"></div>
+	</div>
+	
+	<div class="header">B. CHARAKTERYSTYCZNY PROFIL DOLNY<span style="font-size: 14px;">(do lini horyzontu) zaznaczyć tylko jeden kwadrat<span></div>
+	<div id="B">
+		<img src="img/B1.PNG" width="300px" height="150px"><input type="checkbox" id="B1"><span style="font-family: arial; font-size: 12px; margin-right: 17px;">wciosowa płytka</span>
+		<img src="img/B2.PNG" width="300px" height="150px"><input type="checkbox" id="B2"><span style="font-family: arial; font-size: 12px;">asymetryczna</span><br><br><br>
+		<img src="img/B3.PNG" width="300px" height="150px"><input type="checkbox" id="B3"><span style="font-family: arial; font-size: 12px; margin-right: 5px;">wciosowa głęboka</span>
+		<img src="img/B4.PNG" width="300px" height="150px"><input type="checkbox" id="B4"><span style="font-family: arial; font-size: 12px;">U-kształtna</span><br><br><br>
+		<img src="img/B5.PNG" width="300px" height="150px"><input type="checkbox" id="B5"><span style="font-family: arial; font-size: 12px; margin-right: 35px;">przełomowa</span>
+		<img src="img/B6.PNG" width="300px" height="150px"><input type="checkbox" id="B6"><span style="font-family: arial; font-size: 12px;">płaskodenna</span><br><br><br>
+		<img src="img/B7.PNG" width="300px" height="150px"><input type="checkbox" id="B7"><span style="font-family: arial; font-size: 12px; margin-right: 35px;">nieckowata</span>
+		<img src="img/B8.PNG" width="300px" height="150px"><input type="checkbox" id="B8"><span style="font-family: arial; font-size: 12px;">niewidoczne zbocze doliny</span><br><br><br>
+	</div>
+	<div style="width: 998px; border: 1px solid black; border-top: 0px;">
+		<div style="float: left; padding: 5px;">
+			Czy dno doliny jest płaskie? 
+			<span style="margin-left: 70px;">Nie</span> <input type="checkbox" id="A25" style="margin-right: 19px;"> Tak <input type="checkbox" id="A26" style="margin-right: 105px;">
+		</div>
+		<div style="float: left; padding: 5px; border-left: 1px solid black;">
+			Czy występują naturalne terasy rzeczne?
+			<span style="margin-left: 70px;">Nie</span> <input type="checkbox" id="A25" style="margin-right: 19px;"> Tak <input type="checkbox" id="A26">
+		</div>
+		<div style="clear: both;"></div>
+	</div>
+	<div class="header">C. LICZBA BYSTRZY, KOTŁÓW EWORSYJNYCH, PLOS I ODSYPÓW MEANDROWYCH</div>
+	
+	<div id="C">
+		<div style="float: left; width: 428px; border-right: 1px solid black; padding: 10px;">
+			Bystrza <input type="text" id="C1" style="width: 60px; margin-left: 300px; text-align: center;"> 
+		</div>
+		<div style="float: left; width: 429px; padding: 10px;">
+			Odsypy meandrowe nieutrwalone roślinnością<input type="text" id="C2" style="width: 60px; margin-left: 35px; text-align: center;"> 
+		</div>
+		<div style="clear: both;"></div>
+		<hr color="black" width="898px" size="1px">
+		<div style="float: left; width: 428px; border-right: 1px solid black; padding: 10px;">
+			Plosa i kotły eworsyjne<input type="text" id="C3" style="width: 60px; margin-left: 196px; text-align: center;"> 
+		</div>
+		<div style="float: left; width: 429px; padding: 10px;">
+			Odsypy meandrowe utrwalone roślinnością<input type="text" id="C4" style="width: 60px; margin-left: 55px; text-align: center;"> 
+		</div>
+		<div style="clear: both;"></div>
+	</div>
+	
+	<div class="header">D. BUDOWLE WODNE <span style="font-size: 14px;">(liczba wszystkich zaobserwowanych w każdej kategorii na długości 500m RHS)<span></div>
+	
+		<div id="D">
+			<div style="float: left; padding-top: 50px; padding-left: 30px; padding-right: 50px; width: 68px; text-align: center;">
+				Jezeli brak, zaznacz kwadrat<input type="checkbox" id="D1">
+			</div>
+			<div style="float: left; width: 750px;">
+				<table id="tabelaD" border="0" cellpadding="2" rules="all">
+					<tr>
+						<td></td><td>Duże</td><td>Średnie</td><td>Małe</td><td></td><td>Duże</td><td>Średnie</td><td>Małe</td>
+					</tr>
+					<tr>
+						<td>Budowle piętrzące</td><td><input type="text" id="D2" class="inputD"></td><td><input type="text" id="D3" class="inputD"></td><td><input type="text" id="D4" class="inputD"></td>
+						<td>Wyloty/ujęcia</td><td><input class="inputD" type="text" id="D5"></td><td><input type="text" id="D6" class="inputD"></td><td><input type="text" id="D7" class="inputD"></td>
+					</tr>
+					<tr>
+						<td>Przepusty</td><td><input type="text" id="D8" class="inputD"></td><td style="background-color: black;"></td><td style="background-color: black;"></td>
+						<td>Przeprawy</td><td><input type="text" id="D9" class="inputD"></td><td><input type="text" id="D10" class="inputD"></td><td><input type="text" id="D11" class="inputD"></td>
+					</tr>
+					<tr>
+						<td>Mosty</td><td><input type="text" id="D12" class="inputD"></td><td><input type="text" id="D13" class="inputD"></td><td><input type="text" id="D14" class="inputD"></td>
+						<td>Ostrogi</td><td><input type="text" id="D15" class="inputD"></td><td><input type="text" id="D16" class="inputD"></td><td><input type="text" id="D17" class="inputD"></td>
+					</tr>
+					<tr>
+						<td colspan="4">Inne - określ</td>
+						<td><input type="text" id="D_inne" class="inputD"></td><td><input type="text" id="D18" class="inputD"></td><td><input type="text" id="D19" class="inputD"></td><td><input type="text" id="D20" class="inputD"></td>
+					</tr>
+				</table>
+			</div>
+			<div style="clear: both;"></div>
+			<div>
+				<div style="float: left; width: 490px; padding-top: 30px;">
+					Czy koryto jest znacząco wyprostowane?<br><br>
+					Czy koryto jest znacząco pogłębione?<br><br>
+					Czy woda jest spiętrzona na skutek obecności budowli piętrzących?<br><br>
+				</div>
+				<div style="float: left; width: 60px; padding-top: 30px; padding-left: 20px; padding-right: 10px;">
+					Nie <input type="checkbox" id="D21"><br><br>
+					Nie <input type="checkbox" id="D24"><br><br>
+					Nie <input type="checkbox" id="D27"><br><br>
+				</div>
+				<div style="float: left; width: 168px; padding-top: 30px; padding-right: 10px;">
+					Tak, < 33% dł. RHS <input type="checkbox" id="D22"><br><br>
+					Tak, < 33% dł. RHS <input type="checkbox" id="D25"><br><br>
+					Tak, < 33% dł. RHS <input type="checkbox" id="D28"><br><br>
+				</div>
+				<div style="float: left; width: 140px; padding-top: 30px;">
+					>= 33% dł. RHS <input type="checkbox" id="D23"><br><br>
+					>= 33% dł. RHS <input type="checkbox" id="D26"><br><br>
+					>= 33% dł. RHS <input type="checkbox" id="D29"><br><br>
+				</div>
+				<div style="clear: both;"></div>
+			</div>
+		</div>
+</div>
+
+<div class="container">		
+	<div class="title">RIVER HABITAT SURVEY 2010 PL: 10 profili kontrolnych</div>
+	<div style="padding: 5px; border: 1px solid black;">
+		Profil kontrolny nr 1 jest zlokalizowany: 
+		<input type="checkbox" id="">w górze cieku
+		<input type="checkbox" id="">w dole cieku
+	</div>
+	<div class="header">E. ATRYBUTY FIZYCZNE <span style="font-size: 14px;">szerokość transektu 1m<span></div>
+	<div id="E">
+		<div class="pktElewa" style="padding: 15px; width: 422px; height: 20px;">
+			W szarych kwadratach dozwolony jest tylko 1 wpis
+		</div>
+		<div class="pktEprawa">
+			<table id="tabelaE" border="1" cellpadding="3" rules="all">
+				<tr>
+					<td id="tdEFG">1</td><td id="tdEFG">2</td><td id="tdEFG">3</td><td id="tdEFG">4</td><td id="tdEFG">5</td>
+					<td id="tdEFG">6</td><td id="tdEFG">7</td><td id="tdEFG">8</td><td id="tdEFG">9</td><td id="tdEFG">10</td>
+					<td id="tdEFG">GPS</td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>
+	<div class="header">BRZEG LEWY</div>
+	<div id="E">
+		<div class="pktElewa">
+			Materiał brzegu: NW, WS, GL, KA, ZP, ZI, TM, GI, BE, SS, PF, GS, OK, NK, PO, PS, BI
+		</div>
+		<div class="pktEprawa">
+			<table id="tabelaE" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="E1" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E2" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E3" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E4" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E5" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E6" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E7" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E8" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E9" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E10" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input disabled class="inputE" value="-"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>
+	<div id="E">
+		<div class="pktElewa">
+			Modyfikacje brzegu: NW, BR, PR, UM, RB, RB(N), KW, OB
+		</div>
+		<div class="pktEprawa">
+			<table id="tabelaE" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="E11"></td>
+					<td id="tdEFG"><input class="inputE" id="E12"></td>
+					<td id="tdEFG"><input class="inputE" id="E13"></td>
+					<td id="tdEFG"><input class="inputE" id="E14"></td>
+					<td id="tdEFG"><input class="inputE" id="E15"></td>
+					<td id="tdEFG"><input class="inputE" id="E16"></td>
+					<td id="tdEFG"><input class="inputE" id="E17"></td>
+					<td id="tdEFG"><input class="inputE" id="E18"></td>
+					<td id="tdEFG"><input class="inputE" id="E19"></td>
+					<td id="tdEFG"><input class="inputE" id="E20"></td>
+					<td id="tdEFG"><input disabled class="inputE" value="-"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>
+	<div id="E">
+		<div class="pktElewa">
+			Naturalne elementy morfologiczne: NW, BR, EB, SB, MN, MU, BN, BU, NN
+		</div>
+		<div class="pktEprawa">
+			<table id="tabelaE" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="E21"></td>
+					<td id="tdEFG"><input class="inputE" id="E22"></td>
+					<td id="tdEFG"><input class="inputE" id="E23"></td>
+					<td id="tdEFG"><input class="inputE" id="E24"></td>
+					<td id="tdEFG"><input class="inputE" id="E25"></td>
+					<td id="tdEFG"><input class="inputE" id="E26"></td>
+					<td id="tdEFG"><input class="inputE" id="E27"></td>
+					<td id="tdEFG"><input class="inputE" id="E28"></td>
+					<td id="tdEFG"><input class="inputE" id="E29"></td>
+					<td id="tdEFG"><input class="inputE" id="E30"></td>
+					<td id="tdEFG"><input class="inputE" id="emb_bl_poza"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>
+	<div class="header">KORYTO</div>
+	<div id="E">
+		<div class="pktElewa">
+			Materiał dna: NW, WS, GL, KA, KZ, ZP, PI, ML, GI, TM, BE, GS, OK, NK, PS
+		</div>
+		<div class="pktEprawa">
+			<table id="tabelaE" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="E31" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E32" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E33" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E34" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E35" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E36" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E37" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E38" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E39" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E40" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="MD_poza"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>	
+	<div id="E">
+		<div class="pktElewa">
+			Typ przepływu: NW, SP, PE, KP, RW, CH, WA, WZ, GA, ND, BW
+		</div>
+		<div class="pktEprawa">
+			<table id="tabelaE" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="E41" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E42" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E43" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E44" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E45" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E46" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E47" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E48" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E49" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E50" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="TP_poza"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>	
+	<div id="E">
+		<div class="pktElewa">
+			Modyfikacje dna koryta: NW, BR, PZ, PR, UM, BP, PP, SI
+		</div>
+		<div class="pktEprawa">
+			<table id="tabelaE" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="E51"></td>
+					<td id="tdEFG"><input class="inputE" id="E52"></td>
+					<td id="tdEFG"><input class="inputE" id="E53"></td>
+					<td id="tdEFG"><input class="inputE" id="E54"></td>
+					<td id="tdEFG"><input class="inputE" id="E55"></td>
+					<td id="tdEFG"><input class="inputE" id="E56"></td>
+					<td id="tdEFG"><input class="inputE" id="E57"></td>
+					<td id="tdEFG"><input class="inputE" id="E58"></td>
+					<td id="tdEFG"><input class="inputE" id="E59"></td>
+					<td id="tdEFG"><input class="inputE" id="E60"></td>
+					<td id="tdEFG"><input disabled class="inputE" value="-"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>	
+	<div id="E">
+		<div class="pktElewa">
+			Naturalne elementy morfologiczne: NW, BR, WS, OG, PG, SN, SU, WY, NS
+		</div>
+		<div class="pktEprawa">
+			<table id="tabelaE" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="E61"></td>
+					<td id="tdEFG"><input class="inputE" id="E62"></td>
+					<td id="tdEFG"><input class="inputE" id="E63"></td>
+					<td id="tdEFG"><input class="inputE" id="E64"></td>
+					<td id="tdEFG"><input class="inputE" id="E65"></td>
+					<td id="tdEFG"><input class="inputE" id="E66"></td>
+					<td id="tdEFG"><input class="inputE" id="E67"></td>
+					<td id="tdEFG"><input class="inputE" id="E68"></td>
+					<td id="tdEFG"><input class="inputE" id="E69"></td>
+					<td id="tdEFG"><input class="inputE" id="E70"></td>
+					<td id="tdEFG"><input class="inputE" id="NEM_poza"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>
+	<div class="header">BRZEG PRAWY</div>
+	<div id="E">
+		<div class="pktElewa">
+			Materiał brzegu: NW, WS, GL, KA, ZP, ZI, TM, GI, BE, SS, PF, GS, OK, NK, PO, PS, BI
+		</div>
+		<div class="pktEprawa">
+			<table id="tabelaE" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="E71" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E72" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E73" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E74" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E75" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E76" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E77" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E78" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E79" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input class="inputE" id="E80" style="background-color: #CACACA;"></td>
+					<td id="tdEFG"><input disabled class="inputE" value="-"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>
+	<div id="E">
+		<div class="pktElewa">
+			Modyfikacje brzegu: NW, BR, PR, UM, RB, RB(N), KW, OB
+		</div>
+		<div class="pktEprawa">
+			<table id="tabelaE" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="E81"></td>
+					<td id="tdEFG"><input class="inputE" id="E82"></td>
+					<td id="tdEFG"><input class="inputE" id="E83"></td>
+					<td id="tdEFG"><input class="inputE" id="E84"></td>
+					<td id="tdEFG"><input class="inputE" id="E85"></td>
+					<td id="tdEFG"><input class="inputE" id="E86"></td>
+					<td id="tdEFG"><input class="inputE" id="E87"></td>
+					<td id="tdEFG"><input class="inputE" id="E88"></td>
+					<td id="tdEFG"><input class="inputE" id="E89"></td>
+					<td id="tdEFG"><input class="inputE" id="E90"></td>
+					<td id="tdEFG"><input disabled class="inputE" value="-"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>
+	<div id="E">
+		<div class="pktElewa">
+			Naturalne elementy morfologiczne: NW, BR, EB, SB, MN, MU, BN, BU, NN
+		</div>
+		<div class="pktEprawa">
+			<table id="tabelaE" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="E91"></td>
+					<td id="tdEFG"><input class="inputE" id="E92"></td>
+					<td id="tdEFG"><input class="inputE" id="E93"></td>
+					<td id="tdEFG"><input class="inputE" id="E94"></td>
+					<td id="tdEFG"><input class="inputE" id="E95"></td>
+					<td id="tdEFG"><input class="inputE" id="E96"></td>
+					<td id="tdEFG"><input class="inputE" id="E97"></td>
+					<td id="tdEFG"><input class="inputE" id="E98"></td>
+					<td id="tdEFG"><input class="inputE" id="E99"></td>
+					<td id="tdEFG"><input class="inputE" id="E100"></td>
+					<td id="tdEFG"><input class="inputE" id="emb_bp_poza"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>
+	<div class="header">F. UŻYTKOWANIE SZCZYTU BRZEGU I STRUKTURA ROŚLINNOŚCI <span style="font-size: 14px;">szerokość transektu 10m<span></div>
+	<div style="padding: 5px; border: 1px solid black;">
+		Użytkowanie terenu: wybrać jedną formę: LL, LP, IL, IP, ZK, SA, TP, AA, AN, LE , LI, ZW, TO, ZM, GO, PD, NW
+	</div>
+	<div id="F">
+		<div class="pktFlewa">
+			UŻYTKOWANIE TERENU W PASIE 5 m OD SZCZYTU LEWEGO BRZEGU
+		</div>
+		<div class="pktFprawa">
+			<table id="tabelaF" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="F1"></td>
+					<td id="tdEFG"><input class="inputE" id="F2"></td>
+					<td id="tdEFG"><input class="inputE" id="F3"></td>
+					<td id="tdEFG"><input class="inputE" id="F4"></td>
+					<td id="tdEFG"><input class="inputE" id="F5"></td>
+					<td id="tdEFG"><input class="inputE" id="F6"></td>
+					<td id="tdEFG"><input class="inputE" id="F7"></td>
+					<td id="tdEFG"><input class="inputE" id="F8"></td>
+					<td id="tdEFG"><input class="inputE" id="F9"></td>
+					<td id="tdEFG"><input class="inputE" id="F10"></td>
+					<td id="tdEFG"><input disabled class="inputE" value="-"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>	
+	<div id="F">
+		<div class="pktFlewa">
+			SZCZYT LEWEGO BRZEGU (struktura roślinności w odległości 1m) B/J/P/Z/NW
+		</div>
+		<div class="pktFprawa">
+			<table id="tabelaF" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="F11"></td>
+					<td id="tdEFG"><input class="inputE" id="F12"></td>
+					<td id="tdEFG"><input class="inputE" id="F13"></td>
+					<td id="tdEFG"><input class="inputE" id="F14"></td>
+					<td id="tdEFG"><input class="inputE" id="F15"></td>
+					<td id="tdEFG"><input class="inputE" id="F16"></td>
+					<td id="tdEFG"><input class="inputE" id="F17"></td>
+					<td id="tdEFG"><input class="inputE" id="F18"></td>
+					<td id="tdEFG"><input class="inputE" id="F19"></td>
+					<td id="tdEFG"><input class="inputE" id="F20"></td>
+					<td id="tdEFG"><input disabled class="inputE" value="-"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>	
+	<div id="F">
+		<div class="pktFlewa">
+			SKARPA LEWEGO BRZEGU (struktura roślinności) B/J/P/Z/NW
+		</div>
+		<div class="pktFprawa">
+			<table id="tabelaF" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="F21"></td>
+					<td id="tdEFG"><input class="inputE" id="F22"></td>
+					<td id="tdEFG"><input class="inputE" id="F23"></td>
+					<td id="tdEFG"><input class="inputE" id="F24"></td>
+					<td id="tdEFG"><input class="inputE" id="F25"></td>
+					<td id="tdEFG"><input class="inputE" id="F26"></td>
+					<td id="tdEFG"><input class="inputE" id="F27"></td>
+					<td id="tdEFG"><input class="inputE" id="F28"></td>
+					<td id="tdEFG"><input class="inputE" id="F29"></td>
+					<td id="tdEFG"><input class="inputE" id="F30"></td>
+					<td id="tdEFG"><input disabled class="inputE" value="-"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>	
+	<div id="F">
+		<div class="pktFlewa">
+			SKARPA PRAWEGO BRZEGU (struktura roślinności) B/J/P/Z/NW
+		</div>
+		<div class="pktFprawa">
+			<table id="tabelaF" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="F31"></td>
+					<td id="tdEFG"><input class="inputE" id="F32"></td>
+					<td id="tdEFG"><input class="inputE" id="F33"></td>
+					<td id="tdEFG"><input class="inputE" id="F34"></td>
+					<td id="tdEFG"><input class="inputE" id="F35"></td>
+					<td id="tdEFG"><input class="inputE" id="F36"></td>
+					<td id="tdEFG"><input class="inputE" id="F37"></td>
+					<td id="tdEFG"><input class="inputE" id="F38"></td>
+					<td id="tdEFG"><input class="inputE" id="F39"></td>
+					<td id="tdEFG"><input class="inputE" id="F40"></td>
+					<td id="tdEFG"><input disabled class="inputE" value="-"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>	
+	<div id="F">
+		<div class="pktFlewa">
+			SZCZYT PRAWEGO BRZEGU (struktura roślinności w odległości 1m) B/J/P/Z/NW
+		</div>
+		<div class="pktFprawa">
+			<table id="tabelaF" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="F41"></td>
+					<td id="tdEFG"><input class="inputE" id="F42"></td>
+					<td id="tdEFG"><input class="inputE" id="F43"></td>
+					<td id="tdEFG"><input class="inputE" id="F44"></td>
+					<td id="tdEFG"><input class="inputE" id="F45"></td>
+					<td id="tdEFG"><input class="inputE" id="F46"></td>
+					<td id="tdEFG"><input class="inputE" id="F47"></td>
+					<td id="tdEFG"><input class="inputE" id="F48"></td>
+					<td id="tdEFG"><input class="inputE" id="F49"></td>
+					<td id="tdEFG"><input class="inputE" id="F50"></td>
+					<td id="tdEFG"><input disabled class="inputE" value="-"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>	
+	<div id="F">
+		<div class="pktFlewa">
+			UŻYTKOWANIE TERENU W PASIE 5 m OD SZCZYTU PRAWEGO BRZEGU
+		</div>
+		<div class="pktFprawa">
+			<table id="tabelaF" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="F51"></td>
+					<td id="tdEFG"><input class="inputE" id="F52"></td>
+					<td id="tdEFG"><input class="inputE" id="F53"></td>
+					<td id="tdEFG"><input class="inputE" id="F54"></td>
+					<td id="tdEFG"><input class="inputE" id="F55"></td>
+					<td id="tdEFG"><input class="inputE" id="F56"></td>
+					<td id="tdEFG"><input class="inputE" id="F57"></td>
+					<td id="tdEFG"><input class="inputE" id="F58"></td>
+					<td id="tdEFG"><input class="inputE" id="F59"></td>
+					<td id="tdEFG"><input class="inputE" id="F60"></td>
+					<td id="tdEFG"><input disabled class="inputE" value="-"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>	
+	<div class="header">G. GRUPY ROŚLIN WODNYCH <span style="font-size: 14px;">szerokość transektu 10m, stosować: D(>=33% powierzchni) V(obecny) lub NW(niewidoczny)<span></div>
+	<div id="G">
+		<div class="pktGlewa">
+			Brak (B) lub niewidoczne (NW)
+		</div>
+		<div class="pktGprawa">
+			<table id="tabelaF" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="G1"></td>
+					<td id="tdEFG"><input class="inputE" id="G2"></td>
+					<td id="tdEFG"><input class="inputE" id="G3"></td>
+					<td id="tdEFG"><input class="inputE" id="G4"></td>
+					<td id="tdEFG"><input class="inputE" id="G5"></td>
+					<td id="tdEFG"><input class="inputE" id="G6"></td>
+					<td id="tdEFG"><input class="inputE" id="G7"></td>
+					<td id="tdEFG"><input class="inputE" id="G8"></td>
+					<td id="tdEFG"><input class="inputE" id="G9"></td>
+					<td id="tdEFG"><input class="inputE" id="G10"></td>
+					<td id="tdEFG"><input class="inputE" id="G11"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>	
+	<div id="G">
+		<div class="pktGlewa">
+			Wątrobowce i mchy
+		</div>
+		<div class="pktGprawa">
+			<table id="tabelaF" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="G12"></td>
+					<td id="tdEFG"><input class="inputE" id="G13"></td>
+					<td id="tdEFG"><input class="inputE" id="G14"></td>
+					<td id="tdEFG"><input class="inputE" id="G15"></td>
+					<td id="tdEFG"><input class="inputE" id="G16"></td>
+					<td id="tdEFG"><input class="inputE" id="G17"></td>
+					<td id="tdEFG"><input class="inputE" id="G18"></td>
+					<td id="tdEFG"><input class="inputE" id="G19"></td>
+					<td id="tdEFG"><input class="inputE" id="G20"></td>
+					<td id="tdEFG"><input class="inputE" id="G21"></td>
+					<td id="tdEFG"><input class="inputE" id="G22"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>		
+	<div id="G">
+		<div class="pktGlewa">
+			Wynurzone szerokolistne
+		</div>
+		<div class="pktGprawa">
+			<table id="tabelaF" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="G23"></td>
+					<td id="tdEFG"><input class="inputE" id="G24"></td>
+					<td id="tdEFG"><input class="inputE" id="G25"></td>
+					<td id="tdEFG"><input class="inputE" id="G26"></td>
+					<td id="tdEFG"><input class="inputE" id="G27"></td>
+					<td id="tdEFG"><input class="inputE" id="G28"></td>
+					<td id="tdEFG"><input class="inputE" id="G29"></td>
+					<td id="tdEFG"><input class="inputE" id="G30"></td>
+					<td id="tdEFG"><input class="inputE" id="G31"></td>
+					<td id="tdEFG"><input class="inputE" id="G32"></td>
+					<td id="tdEFG"><input class="inputE" id="G33"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>		
+	<div id="G">
+		<div class="pktGlewa">
+			Wynurzone wąskolistne
+		</div>
+		<div class="pktGprawa">
+			<table id="tabelaF" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="G34"></td>
+					<td id="tdEFG"><input class="inputE" id="G35"></td>
+					<td id="tdEFG"><input class="inputE" id="G36"></td>
+					<td id="tdEFG"><input class="inputE" id="G37"></td>
+					<td id="tdEFG"><input class="inputE" id="G38"></td>
+					<td id="tdEFG"><input class="inputE" id="G39"></td>
+					<td id="tdEFG"><input class="inputE" id="G40"></td>
+					<td id="tdEFG"><input class="inputE" id="G41"></td>
+					<td id="tdEFG"><input class="inputE" id="G42"></td>
+					<td id="tdEFG"><input class="inputE" id="G43"></td>
+					<td id="tdEFG"><input class="inputE" id="G44"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>		
+	<div id="G">
+		<div class="pktGlewa">
+			Zanurzone o liściach pływających
+		</div>
+		<div class="pktGprawa">
+			<table id="tabelaF" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="G45"></td>
+					<td id="tdEFG"><input class="inputE" id="G46"></td>
+					<td id="tdEFG"><input class="inputE" id="G47"></td>
+					<td id="tdEFG"><input class="inputE" id="G48"></td>
+					<td id="tdEFG"><input class="inputE" id="G49"></td>
+					<td id="tdEFG"><input class="inputE" id="G50"></td>
+					<td id="tdEFG"><input class="inputE" id="G51"></td>
+					<td id="tdEFG"><input class="inputE" id="G52"></td>
+					<td id="tdEFG"><input class="inputE" id="G53"></td>
+					<td id="tdEFG"><input class="inputE" id="G54"></td>
+					<td id="tdEFG"><input class="inputE" id="G55"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>		
+	<div id="G">
+		<div class="pktGlewa">
+			Swobodnie pływające
+		</div>
+		<div class="pktGprawa">
+			<table id="tabelaF" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="G56"></td>
+					<td id="tdEFG"><input class="inputE" id="G57"></td>
+					<td id="tdEFG"><input class="inputE" id="G58"></td>
+					<td id="tdEFG"><input class="inputE" id="G59"></td>
+					<td id="tdEFG"><input class="inputE" id="G60"></td>
+					<td id="tdEFG"><input class="inputE" id="G61"></td>
+					<td id="tdEFG"><input class="inputE" id="G62"></td>
+					<td id="tdEFG"><input class="inputE" id="G63"></td>
+					<td id="tdEFG"><input class="inputE" id="G64"></td>
+					<td id="tdEFG"><input class="inputE" id="G65"></td>
+					<td id="tdEFG"><input class="inputE" id="G66"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>		
+	<div id="G">
+		<div class="pktGlewa">
+			Zakorzenione na brzegu z pędami płożącymi się w wodzie
+		</div>
+		<div class="pktGprawa">
+			<table id="tabelaF" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="G67"></td>
+					<td id="tdEFG"><input class="inputE" id="G68"></td>
+					<td id="tdEFG"><input class="inputE" id="G69"></td>
+					<td id="tdEFG"><input class="inputE" id="G70"></td>
+					<td id="tdEFG"><input class="inputE" id="G71"></td>
+					<td id="tdEFG"><input class="inputE" id="G72"></td>
+					<td id="tdEFG"><input class="inputE" id="G73"></td>
+					<td id="tdEFG"><input class="inputE" id="G74"></td>
+					<td id="tdEFG"><input class="inputE" id="G75"></td>
+					<td id="tdEFG"><input class="inputE" id="G76"></td>
+					<td id="tdEFG"><input class="inputE" id="G77"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>		
+	<div id="G">
+		<div class="pktGlewa">
+			Zanurzone szerokolistne
+		</div>
+		<div class="pktGprawa">
+			<table id="tabelaF" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="G78"></td>
+					<td id="tdEFG"><input class="inputE" id="G79"></td>
+					<td id="tdEFG"><input class="inputE" id="G80"></td>
+					<td id="tdEFG"><input class="inputE" id="G81"></td>
+					<td id="tdEFG"><input class="inputE" id="G82"></td>
+					<td id="tdEFG"><input class="inputE" id="G83"></td>
+					<td id="tdEFG"><input class="inputE" id="G84"></td>
+					<td id="tdEFG"><input class="inputE" id="G85"></td>
+					<td id="tdEFG"><input class="inputE" id="G86"></td>
+					<td id="tdEFG"><input class="inputE" id="G87"></td>
+					<td id="tdEFG"><input class="inputE" id="G88"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>		
+	<div id="G">
+		<div class="pktGlewa">
+			Zanurzone wąskolistne
+		</div>
+		<div class="pktGprawa">
+			<table id="tabelaF" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="G89"></td>
+					<td id="tdEFG"><input class="inputE" id="G90"></td>
+					<td id="tdEFG"><input class="inputE" id="G91"></td>
+					<td id="tdEFG"><input class="inputE" id="G92"></td>
+					<td id="tdEFG"><input class="inputE" id="G93"></td>
+					<td id="tdEFG"><input class="inputE" id="G94"></td>
+					<td id="tdEFG"><input class="inputE" id="G95"></td>
+					<td id="tdEFG"><input class="inputE" id="G96"></td>
+					<td id="tdEFG"><input class="inputE" id="G97"></td>
+					<td id="tdEFG"><input class="inputE" id="G98"></td>
+					<td id="tdEFG"><input class="inputE" id="G99"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>		
+	<div id="G">
+		<div class="pktGlewa">
+			Zanurzone o liściach silnie podzielonych
+		</div>
+		<div class="pktGprawa">
+			<table id="tabelaF" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="G100"></td>
+					<td id="tdEFG"><input class="inputE" id="G101"></td>
+					<td id="tdEFG"><input class="inputE" id="G102"></td>
+					<td id="tdEFG"><input class="inputE" id="G103"></td>
+					<td id="tdEFG"><input class="inputE" id="G104"></td>
+					<td id="tdEFG"><input class="inputE" id="G105"></td>
+					<td id="tdEFG"><input class="inputE" id="G106"></td>
+					<td id="tdEFG"><input class="inputE" id="G107"></td>
+					<td id="tdEFG"><input class="inputE" id="G108"></td>
+					<td id="tdEFG"><input class="inputE" id="G109"></td>
+					<td id="tdEFG"><input class="inputE" id="G110"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>	
+	<div id="G">
+		<div class="pktGlewa">
+			Glony strukturalne
+		</div>
+		<div class="pktGprawa">
+			<table id="tabelaF" border="1" cellpadding="0" rules="all">
+				<tr>
+					<td id="tdEFG"><input class="inputE" id="G111"></td>
+					<td id="tdEFG"><input class="inputE" id="G112"></td>
+					<td id="tdEFG"><input class="inputE" id="G113"></td>
+					<td id="tdEFG"><input class="inputE" id="G114"></td>
+					<td id="tdEFG"><input class="inputE" id="G115"></td>
+					<td id="tdEFG"><input class="inputE" id="G116"></td>
+					<td id="tdEFG"><input class="inputE" id="G117"></td>
+					<td id="tdEFG"><input class="inputE" id="G118"></td>
+					<td id="tdEFG"><input class="inputE" id="G119"></td>
+					<td id="tdEFG"><input class="inputE" id="G120"></td>
+					<td id="tdEFG"><input class="inputE" id="G121"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="clear: both;"></div>
+	</div>	
+	<div style="padding: 5px; border: 1px solid black; border-radius: 0px 0px 6px 6px;">
+		<div style="float: left">W ostatniej kolumnie podsumowanie całego 500-metrowego odcinka<br>(zastosuj B, D lub NW)</div>
+		<div style="float: left"><img src="img/Gstrzalka.PNG" style="padding-left: 260px;"></div>
+		<div style="clear: both;"></div>
+	</div>
+</div>
+
+<div class="container">	
+	<div class="title">RIVER HABITAT SURVEY 2010 PL: 500m OCENA SYNTETYCZNA</div>
+	<div class="header">H. UŻYTKOWANIE TERENU W PASIE 50 M OD SZCZYTU BRZEGU <span style="font-size: 14px;">stosować V(obecne), D(>=33%)<span></div>
+	<div id="H">
+		<div>
+			<div class="pktHdlugi">
+			
+			</div>
+			<div class="pktHkrotki">
+			L
+			</div>
+			<div class="pktHkrotki">
+			P
+			</div>
+			<div class="pktHdlugi">
+			
+			</div>
+			<div class="pktHkrotki">
+			L
+			</div>
+			<div class="pktHkrotki">
+			P
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</div>
+	<div id="H">
+		<div>
+			<div class="pktHdlugi">
+			Lasy liściaste/mieszane (LL)
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H1">
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H2">
+			</div>
+			<div class="pktHdlugi">
+			Akweny pochodzenia naturalnego (AN)
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H3">
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H4">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</div>
+	<div id="H">
+		<div>
+			<div class="pktHdlugi">
+			Plantacje drzew liściastych/mieszane (LP)
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H5">
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H6">
+			</div>
+			<div class="pktHdlugi">
+			Ekstensywnie użytkowane łąki/pastwiska (LE)
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H7">
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H8">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</div>
+	<div id="H">
+		<div>
+			<div class="pktHdlugi">
+			Lasy iglaste (IL)
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H9">
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H10">
+			</div>
+			<div class="pktHdlugi">
+			Intensywnie użytkowane łąki/pastwiska (LI)
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H11">
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H12">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</div>
+	<div id="H">
+		<div>
+			<div class="pktHdlugi">
+			Plantacje drzew iglastych(IP)
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H13">
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H14">
+			</div>
+			<div class="pktHdlugi">
+			Wysokie ziołorośla (ZW)
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H15">
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H16">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</div>	
+	<div id="H">
+		<div>
+			<div class="pktHdlugi">
+			Zakrzewienia i zadrzewienia (ZK)
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H17">
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H18">
+			</div>
+			<div class="pktHdlugi">
+			Naturalne tereny otwarte pozbawione roślinności (TO)
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H19">
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H20">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</div>	
+	<div id="H">
+		<div>
+			<div class="pktHdlugi">
+			Sady (SA)
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H21">
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H22">
+			</div>
+			<div class="pktHdlugi">
+			Zabudowa miejska/podmiejska (ZM)
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H23">
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H24">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</div>	
+	<div id="H">
+		<div>
+			<div class="pktHdlugi">
+			Tereny podmokłe (torfowiska, bagna) (TP)
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H25">
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H26">
+			</div>
+			<div class="pktHdlugi">
+			Grunty orne (GO)
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H27">
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H28">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</div>	
+	<div id="H">
+		<div>
+			<div class="pktHdlugi">
+			Akweny pochodzenia antropogenicznego (AA)
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H29">
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H30">
+			</div>
+			<div class="pktHdlugi">
+			Parki lub ogrody (PD)
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H31">
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H32">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</div>	
+	<div id="H">
+		<div>
+			<div class="pktHdlugi">
+			
+			</div>
+			<div class="pktHkrotki">
+			</div>
+			<div class="pktHkrotki">
+			</div>
+			<div class="pktHdlugi">
+			Niewidoczne (NW)
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H33">
+			</div>
+			<div class="pktHkrotki">
+			<input type="text" class="inputH" id="H34">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</div>
+	<div class="header">I. PROFILE BRZEGÓW <span style="font-size: 14px;">Użyj V(obecne) lub D(>=33% dl. RHS)<span></div>
+	<div id="I">
+		<div>
+			<div class="pktIdlugi">
+			Naturalne/niezmodyfikowane
+			</div>
+			<div class="pktIkrotki">
+			L
+			</div>
+			<div class="pktIkrotki">
+			P
+			</div>
+			<div class="pktIdlugi">
+			Przekształcone antropogenicznie
+			</div>
+			<div class="pktIkrotki">
+			L
+			</div>
+			<div class="pktIkrotki">
+			P
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</div>
+	<div id="I">
+		<div>
+			<div class="pktIdlugi">
+				<div style="float: left">
+				Pionowy/podmyty (kąt>85*) 
+				</div>
+				<div style="float: left; padding-left: 108px;">
+				<img src="img/I1.PNG" height="20px;">
+				</div>
+				<div style="clear: both"></div>
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I1">
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I2">
+			</div>
+			<div class="pktIdlugi">
+				<div style="float: left">
+				Profilowany 
+				</div>
+				<div style="float: left; padding-left: 225px;">
+				<img src="img/I2.PNG" height="20px;">
+				</div>
+				<div style="clear: both"></div>			
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I3">
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I4">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</div>
+	<div id="I">
+		<div>
+			<div class="pktIdlugi">
+				<div style="float: left">
+				Pionowy z podstawą 
+				</div>
+				<div style="float: left; padding-left: 185px;">
+				<img src="img/I3.PNG" height="20px;">
+				</div>
+				<div style="clear: both"></div>
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I5">
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I6">
+			</div>
+			<div class="pktIdlugi">
+				<div style="float: left">
+				Umocniony - cały 
+				</div>
+				<div style="float: left; padding-left: 192px;">
+				<img src="img/I4.PNG" height="20px;">
+				</div>
+				<div style="clear: both"></div>			
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I7">
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I8">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</div>
+	<div id="I">
+		<div>
+			<div class="pktIdlugi">
+				<div style="float: left">
+				Stromy (kąt 45*-85*)
+				</div>
+				<div style="float: left; padding-left: 190px;">
+				<img src="img/I5.PNG" height="20px;">
+				</div>
+				<div style="clear: both"></div>
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I9">
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I10">
+			</div>
+			<div class="pktIdlugi">
+				<div style="float: left">
+				Umocniony - tylko szczyt 
+				</div>
+				<div style="float: left; padding-left: 172px;">
+				<img src="img/I6.PNG" height="20px;">
+				</div>
+				<div style="clear: both"></div>			
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I11">
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I12">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</div>
+	<div id="I">
+		<div>
+			<div class="pktIdlugi">
+				<div style="float: left">
+				Łagodny (kąt<45*)
+				</div>
+				<div style="float: left; padding-left: 190px;">
+				<img src="img/I7.PNG" height="20px;">
+				</div>
+				<div style="clear: both"></div>
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I13">
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I14">
+			</div>
+			<div class="pktIdlugi">
+				<div style="float: left">
+				Umocniony - tylko podstawa
+				</div>
+				<div style="float: left; padding-left: 137px;">
+				<img src="img/I8.PNG" height="20px;">
+				</div>
+				<div style="clear: both"></div>			
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I15">
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I16">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</div>
+	<div id="I">
+		<div>
+			<div class="pktIdlugi">
+				<div style="float: left">
+				Wielopoziomowy
+				</div>
+				<div style="float: left; padding-left: 195px;">
+				<img src="img/I9.PNG" height="20px;">
+				</div>
+				<div style="clear: both"></div>
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I17">
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I18">
+			</div>
+			<div class="pktIdlugi">
+				<div style="float: left">
+				Wielodzielny 
+				</div>
+				<div style="float: left; padding-left: 195px;">
+				<img src="img/I10.PNG" height="20px;">
+				</div>
+				<div style="clear: both"></div>			
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I19">
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I20">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</div>
+	<div id="I">
+		<div>
+			<div class="pktIdlugi">
+				<div style="float: left">
+				Naturalny nasyp 
+				</div>
+				<div style="float: left; padding-left: 162px;">
+				<img src="img/I11.PNG" height="20px;">
+				</div>
+				<div style="clear: both"></div>
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I21">
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I22">
+			</div>
+			<div class="pktIdlugi">
+				<div style="float: left">
+				Rozdeptany
+				</div>
+				<div style="float: left; padding-left: 240px;">
+				<img src="img/I12.PNG" height="20px;">
+				</div>
+				<div style="clear: both"></div>			
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I23">
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I24">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</div>
+	<div id="I">
+		<div>
+			<div class="pktIdlugi">
+			</div>
+			<div class="pktIkrotki">
+			</div>
+			<div class="pktIkrotki">
+			</div>
+			<div class="pktIdlugi">
+				<div style="float: left">
+				Obwałowanie na skarpie
+				</div>
+				<div style="float: left; padding-left: 125px;">
+				<img src="img/I13.PNG" height="20px;">
+				</div>
+				<div style="clear: both"></div>			
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I25">
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I26">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</div>
+	<div id="I">
+		<div>
+			<div class="pktIdlugi">
+			</div>
+			<div class="pktIkrotki">
+			</div>
+			<div class="pktIkrotki">
+			</div>
+			<div class="pktIdlugi">
+				<div style="float: left">
+				Obwałowanie pod skarpą
+				</div>
+				<div style="float: left; padding-left: 125px;">
+				<img src="img/I14.PNG" height="20px;">
+				</div>
+				<div style="clear: both"></div>			
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I27">
+			</div>
+			<div class="pktIkrotki">
+			<input type="text" class="inputH" id="I28">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</div>
+	<div class="header">J. ZADRZEWIENIA I ELEMENTY MORFOLOGICZNE IM TOWARZYSZĄCE <span style="font-size: 14px;">* notuj nawet jeśli <1%<span></div>
+	<div id="J">
+		<div>
+			<div class="pktJlewa">
+			ZADRZEWIENIA (zaznacz 1 kwadrat na każdy brzeg)
+			</div>
+			<div class="pktJprawa">
+			CECHY TOWARZYSZĄCE (zaznacz 1 kwadrat na każdą cechę)
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div>
+			<div class="pktJdlugi1"></div>
+			<div class="pktJkrotki">
+				L
+			</div>
+			<div class="pktJkrotki">
+				P
+			</div>
+			<div class="pktJdlugi2"></div>
+			<div class="pktJkrotki">
+				Brak
+			</div>
+			<div class="pktJkrotki">
+				Obecne
+			</div>
+			<div class="pktJkrotki">
+				D>=33%
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div>
+			<div class="pktJdlugi1">
+				Brak
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J1">
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J2">
+			</div>
+			<div class="pktJdlugi2">
+				Zacienienie koryta
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J3">
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J4">
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J5">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div>
+			<div class="pktJdlugi1">
+				Odizolowane/Rozproszone
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J6">
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J7">
+			</div>
+			<div class="pktJdlugi2">
+				*Zwisające konary
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J8">
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J9">
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J10">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div>
+			<div class="pktJdlugi1">
+				Regularnie rozmieszczone, pojedyncze
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J11">
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J12">
+			</div>
+			<div class="pktJdlugi2">
+				*Odkryte korzenie na brzegu
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J13">
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J14">
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J15">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div>
+			<div class="pktJdlugi1">
+				Rozproszone kępy
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J16">
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J17">
+			</div>
+			<div class="pktJdlugi2">
+				*Podwodne korzenie drzew
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J18">
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J19">
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J20">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div>
+			<div class="pktJdlugi1">
+				Półciągłe
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J21">
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J22">
+			</div>
+			<div class="pktJdlugi2">
+				Powalone drzewa
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J23">
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J24">
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J25">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div>
+			<div class="pktJdlugi1">
+				Ciągłe
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J26">
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J27">
+			</div>
+			<div class="pktJdlugi2">
+				Rumosz drzewny
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J28">
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J29">
+			</div>
+			<div class="pktJkrotki">
+				<input type="checkbox" id="J30">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</div>
+	<div class="header">K. ATRYBUTY BRZEGÓW I DNA KORYTA <span style="font-size: 14px;">(zaznacz jeden kwadrat dla każdego elementu) * notuj nawet jeśli <1%<span></div>
+	<div id="K">
+		<div>
+			<div class="pktKdlugi"></div>
+			<div class="pktKkrotki">
+				Brak
+			</div>
+			<div class="pktKkrotki">
+				Obecne
+			</div>
+			<div class="pktKkrotki">
+				D>=33%
+			</div>
+			<div class="pktKdlugi"></div>
+			<div class="pktKkrotki">
+				Brak
+			</div>
+			<div class="pktKkrotki">
+				Obecne
+			</div>
+			<div class="pktKkrotki">
+				D>=33%
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div>
+			<div class="pktKdlugi">
+				*Wodospad (SP)
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K1">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K2">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K3">
+			</div>
+			<div class="pktKdlugi">
+				Wychodnie skalne (WS)
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K4">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K5">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K6">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div>
+			<div class="pktKdlugi">
+				Przelewowy (PE)
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K7">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K8">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K9">
+			</div>
+			<div class="pktKdlugi">
+				Odsłonięte głazy (OG)
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K10">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K11">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K12">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div>
+			<div class="pktKdlugi">
+				Kipiel (KP)
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K13">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K14">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K15">
+			</div>
+			<div class="pktKdlugi">
+				Porośnięte wychodnie skalne i głazy
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K16">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K17">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K18">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div>
+			<div class="pktKdlugi">
+				Rwący (RW)
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K19">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K120">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K21">
+			</div>
+			<div class="pktKdlugi">
+				Odsypy śródkorytowe bez roślin(SN)
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K22">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K23">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K24">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div>
+			<div class="pktKdlugi">
+				Wartki (WA)
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K25">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K26">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K27">
+			</div>
+			<div class="pktKdlugi">
+				Odsypy śródkoryt. z roślinami (SU)
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K28">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K29">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K30">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div>
+			<div class="pktKdlugi">
+				*Wznoszący (WZ)
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K31">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K32">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K33">
+			</div>
+			<div class="pktKdlugi">
+				Wyspy (WY)
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K34">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K35">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K36">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div>
+			<div class="pktKdlugi">
+				Gładki (GA)
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K37">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K38">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K39">
+			</div>
+			<div class="pktKdlugi">
+				Odsypy brzegowe bez roślin (BN)
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K40">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K41">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K42">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div>
+			<div class="pktKdlugi">
+				Niedostrzegalny (ND)
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K43">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K44">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K45">
+			</div>
+			<div class="pktKdlugi">
+				Odsypy brzegowe z roślinami (BU)
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K46">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K47">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K48">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div>
+			<div class="pktKdlugi">
+				Brak wody (suche koryto) (BW)
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K49">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K50">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K51">
+			</div>
+			<div class="pktKdlugi">
+				Odsypy meandrowe bez roślin (MN)
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K52">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K53">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K54">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div>
+			<div class="pktKdlugi">
+				Zastoisko boczne
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K55">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K56">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K57">
+			</div>
+			<div class="pktKdlugi">
+				Odsypy meandrowe z roślinami (MU)
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K58">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K59">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K60">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div>
+			<div class="pktKdlugi">
+				Naturalne spiętrzenie (NS)
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K61">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K62">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K63">
+			</div>
+			<div class="pktKdlugi">
+				*Depozycja mułu bez roślin
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K64">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K65">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K66">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div>
+			<div class="pktKdlugi">
+				Erodujące podcięcie brzegu (EB)
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K67">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K68">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K69">
+			</div>
+			<div class="pktKdlugi">
+				*Depozycja piasku bez roślin
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K70">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K71">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div>
+			<div class="pktKdlugi">
+				Stabilne podcięcie brzegu
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K72">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K73">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K74">
+			</div>
+			<div class="pktKdlugi">
+				*Depozycja żwiru bez roślin
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K75">
+			</div>
+			<div class="pktKkrotki">
+				<input type="checkbox" id="K76">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</div>
+</div>
+
+<div class="container">	
+	<div class="title">RIVER HABITAT SURVEY 2010 PL: POMIARY I STAN ŚRODOWISKA</div>
+	<div class="header">L. WYMIARY KORYTA <span style="font-size: 14px;">(pomiar w jednym reprezentatywnym stanowisku)<span></div>
+	<div id="L">
+		<div style="float: left; padding: 10px; width: 312px; border-right: 1px solid black; border-bottom: 1px solid black;">
+			BRZEG LEWY
+		</div>
+		<div style="float: left; padding: 10px; width: 312px; border-right: 1px solid black; border-bottom: 1px solid black;">
+			KORYTO
+		</div>
+		<div style="float: left; padding: 10px; width: 312px; border-bottom: 1px solid black;">
+			BRZEG PRAWY
+		</div>
+		<div style="clear: both"></div>
+		<div class="pktLkrotki">
+			Wysokość brzegu (m) <input style="margin-left:101px;" class="inputL" type="text" id="L1">
+		</div>
+		<div class="pktLkrotki">
+			Szerokość zwierciadła wody <input style="margin-left:55px;" class="inputL" type="text" id="L2"><br>
+			brzegowej (m)
+		</div>
+		<div class="pktLkrotki" style="border-right: 0px;">
+			Wysokość brzegu (m) <input style="margin-left:101px;" class="inputL" type="text" id="L3">
+		</div>
+		<div style="clear: both"></div>
+		<div class="pktLkrotki">
+			Czy wysokość brzegu jest tożsama <input style="margin-left:6px;" class="inputL" type="text" id="L4">
+			z wysokością zwierciadła wody<br>
+			brzegowej (T lun N)
+		</div>
+		<div class="pktLkrotki">
+			Szerokość lustra wody (m) <input style="margin-left:67px;" class="inputL" type="text" id="L5">
+		</div>
+		<div class="pktLkrotki" style="border-right: 0px;">
+			Czy wysokość brzegu jest tożsama <input style="margin-left:6px;" class="inputL" type="text" id="L6">
+			z wysokością zwierciadła wody<br>
+			brzegowej (T lun N)
+		</div>
+		<div style="clear: both"></div>
+		<div class="pktLkrotki">
+			Wysokość obwałowań (m) <input style="margin-left:69px;" class="inputL" type="text" id="L7">
+		</div>
+		<div class="pktLkrotki">
+			Głębokość wody (m) <input style="margin-left:109px;" class="inputL" type="text" id="L8">
+		</div>
+		<div class="pktLkrotki" style="border-right: 0px;">
+			Wysokość obwałowań (m) <input style="margin-left:69px;" class="inputL" type="text" id="L9">
+		</div>
+		<div style="clear: both"></div>
+		<div style="float: left; width: 485px; padding: 7px; border-bottom: 1px solid black; height: 49px;">
+		Jeżeli linia najwyższego stanu wody jest niższa od szczytu brzegu:
+		</div>
+		<div style="float: left; width: 489px; padding: 5px; border-bottom: 1px solid black; height: 53px;">
+		wysokość znaku wysokiej wody (m) = <input style="margin-left:167px; margin-bottom: 5px;" class="inputL" type="text" id="L10"><br>
+		szerokość koryta na wysokości znaku wysokiej wody (m) = <input style="margin-left: 16px;" class="inputL" type="text" id="L11">
+		</div>
+		<div style="clear: both"></div>
+		<div style="width: 988px; padding: 5px; border-bottom: 1px solid black;">
+			Materiał podłoża w badanym miejscu jest: <span style="margin-left: 100px;">zbity</span> <input style="margin-right: 100px;" type="checkbox" id="L12"> 
+			luźny/grząski <input style="margin-right: 100px;" type="checkbox" id="L13"> 
+			nieznany <input type="checkbox" id="L14">
+		</div>
+		<div style="width: 988px; padding: 5px;">
+			Lokalizacja pomiarów: <span style="margin-left: 50px;">bystrze</span> <input style="margin-right: 100px;" type="checkbox" id="L15"> 
+			inne <input style="margin-right: 0px;" type="checkbox" id="L16"> 
+			(określ): <input style="width: 476px;" type="text" id="L17">
+		</div>
+	</div>
+	<div class="header">M. CENNE PRZYRODNICZO ELEMENTY ŚRODOWISKA RZECZNEGO</div>
+	<div id="M">
+		<div>
+			<div class="pktMdlugi">
+				Brak
+			</div>
+			<div class="pktMkrotki">
+				<input type="checkbox" id="M1">
+			</div>
+			<div class="pktMdlugi">
+				Naturalne kaskady
+			</div>
+			<div class="pktMkrotki">
+				<input type="checkbox" id="M2">
+			</div>
+			<div class="pktMdlugi">
+				Torfowiska niskie
+			</div>
+			<div class="pktMkrotki">
+				<input type="checkbox" id="M3">
+			</div>
+			<div class="pktMdlugi">
+				Łąki łęgowe
+			</div>
+			<div class="pktMkrotki">
+				<input type="checkbox" id="M4">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		</br>
+		<div>
+			<div class="pktMdlugi">
+				Kanały boczne
+			</div>
+			<div class="pktMkrotki">
+				<input type="checkbox" id="M5">
+			</div>
+			<div class="pktMdlugi">
+				Duże głazy (>1 m)
+			</div>
+			<div class="pktMkrotki">
+				<input type="checkbox" id="M6">
+			</div>
+			<div class="pktMdlugi">
+				Łozowiska
+			</div>
+			<div class="pktMkrotki">
+				<input type="checkbox" id="M7">
+			</div>
+			<div class="pktMdlugi">
+				Siedliska zmiennie wilgotne
+			</div>
+			<div class="pktMkrotki">
+				<input type="checkbox" id="M8">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		</br>
+		<div>
+			<div class="pktMdlugi">
+				Starorzecza
+			</div>
+			<div class="pktMkrotki">
+				<input type="checkbox" id="M9">
+			</div>
+			<div class="pktMdlugi">
+				Głazy popowodziowe
+			</div>
+			<div class="pktMkrotki">
+				<input type="checkbox" id="M10">
+			</div>
+			<div class="pktMdlugi">
+				Olsy i lasy łęgowe
+			</div>
+			<div class="pktMkrotki">
+				<input type="checkbox" id="M11">
+			</div>
+			<div class="pktMdlugi">
+				Wypływy wód podziemnych
+			</div>
+			<div class="pktMkrotki">
+				<input type="checkbox" id="M12">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		</br>
+		<div>
+			<div class="pktMdlugi">
+				*Wodospad >5 m wys.
+			</div>
+			<div class="pktMkrotki">
+				<input type="checkbox" id="M13">
+			</div>
+			<div class="pktMdlugi">
+				*Sterty liści
+			</div>
+			<div class="pktMkrotki">
+				<input type="checkbox" id="M14">
+			</div>
+			<div class="pktMdlugi">
+				Torfowiska wysokie i przejściowe
+			</div>
+			<div class="pktMkrotki">
+				<input type="checkbox" id="M15">
+			</div>
+			<div class="pktMdlugi">
+				Naturalne akweny
+			</div>
+			<div class="pktMkrotki">
+				<input type="checkbox" id="M16">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		</br>
+		<div>
+			<div class="pktMdlugi">
+				*Wodospad <5 m wys.
+			</div>
+			<div class="pktMkrotki">
+				<input type="checkbox" id="M17">
+			</div>
+			<div class="pktMdlugi">
+				Szuwary brzegowe
+			</div>
+			<div class="pktMkrotki">
+				<input type="checkbox" id="M18">
+			</div>
+			<div class="pktMdlugi">
+				Trzęsawiska
+			</div>
+			<div class="pktMkrotki">
+				<input type="checkbox" id="M19">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</div>
+	<div class="header">N. DROŻNOŚĆ KORYTA <span style="font-size: 14px;">(zaznaczyć właściwy kwadrat)<span></div>
+	<div id="N">
+		<div style="width: 988px; padding: 5px;">
+			Czy >33% koryta jest zarośnięte roślinnością? 
+			<span style="margin-left: 70px;">Nie</span> <input type="checkbox" id="N1" style="margin-right: 100px;"> Tak <input type="checkbox" id="N2">
+		</div>
+	</div>
+	<div class="header">O. ROŚLINY INWAZYJNE <span style="font-size: 14px;">Użyj V lub D (>=33% długości RHS) * notuj nawet jeśli <1%<span></div>
+	<div id="O">
+		<div style="float: left; width: 90px; height: 37px; padding: 50px 5px 50px 5px;">
+		Brak <input type="checkbox" id="O1" style="margin-left: 10px;">
+		</div>
+		<div style="float: left;">
+			<div class="pktOdlugi">
+			</div>
+			<div class="pktOkrotki">
+				stok<br>brzegu
+			</div>
+			<div class="pktOkrotki">
+				50m od<br>szczytu brzegu
+			</div>
+			<div class="pktOdlugi">
+			</div>
+			<div class="pktOkrotki">
+				stok<br>brzegu
+			</div>
+			<div class="pktOkrotki">
+				50m od<br>szczytu brzegu
+			</div>
+			<div style="clear: both"></div>
+			<div class="pktOdlugi">
+			*Barszcz Sosnowskiego
+			</div>
+			<div class="pktOkrotki">
+				<input type="text" class="inputO" id="O2">
+			</div>
+			<div class="pktOkrotki">
+				<input type="text" class="inputO" id="O3">
+			</div>
+			<div class="pktOdlugi">
+			*Uczep amerykański
+			</div>
+			<div class="pktOkrotki">
+				<input type="text" class="inputO" id="O4">
+			</div>
+			<div class="pktOkrotki">
+				<input type="text" class="inputO" id="O5">
+			</div>
+			<div style="clear: both"></div>
+			<div class="pktOdlugi">
+				*Rdestowiec
+			</div>
+			<div class="pktOkrotki">
+				<input type="text" class="inputO" id="O6">
+			</div>
+			<div class="pktOkrotki">
+				<input type="text" class="inputO" id="O7">
+			</div>
+			<div class="pktOdlugi">
+				*Niecierpek himalajski
+			</div>
+			<div class="pktOkrotki">
+				<input type="text" class="inputO" id="O8">
+			</div>
+			<div class="pktOkrotki">
+				<input type="text" class="inputO" id="O9">
+			</div>
+			<div style="clear: both"></div>
+			<div class="pktOdlugi">
+				*Kolczurka klapowana
+			</div>
+			<div class="pktOkrotki">
+				<input type="text" class="inputO" id="O10">
+			</div>
+			<div class="pktOkrotki">
+				<input type="text" class="inputO" id="O11">
+			</div>
+			<div class="pktOdlugi">
+			*Inne <input type="text" class="inputO" style="width: 153px;">
+			</div>
+			<div class="pktOkrotki">
+				<input type="text" class="inputO" id="O13">
+			</div>
+			<div class="pktOkrotki">
+				<input type="text" class="inputO" id="O14">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div style="clear: both"></div>
+	</div>
+	<div class="header">P. INFORMACJE UZUPEŁNIAJĄCE <span style="font-size: 14px;">(Zaznacz właściwe słowa, dodaj inne, jeśli to konieczne)<span></div>
+	<div id="P">
+		<div style="padding: 5px;">
+			<b>Czynniki degradujące środowisko:</b></br>
+			<div class="pktP">
+				wysypisko <input type="checkbox" id="P1">
+			</div>
+			<div class="pktP">
+				hałdy <input type="checkbox" id="P2">
+			</div>
+			<div class="pktP">
+				śmieci <input type="checkbox" id="P3">
+			</div>
+			<div class="pktP">
+				ścieki <input type="checkbox" id="P4">
+			</div>
+			<div class="pktP">
+				susza <input type="checkbox" id="P5">
+			</div>
+			<div class="pktP">
+				młyn <input type="checkbox" id="P6">
+			</div>
+			<div class="pktP">
+				tama <input type="checkbox" id="P7">
+			</div>
+			<div class="pktP">
+				droga <input type="checkbox" id="P8">
+			</div>
+			<div class="pktP">
+				tory <input type="checkbox" id="P9">
+			</div>
+			<div class="pktP">
+				przemysł <input type="checkbox" id="P10">
+			</div>
+			<div class="pktP">
+				budownictwo <input type="checkbox" id="P11">
+			</div>
+			<div class="pktP">
+				kopalnie <input type="checkbox" id="P12">
+			</div>
+			<div class="pktP">
+				odkrywki <input type="checkbox" id="P13">
+			</div>
+			<div class="pktP">
+				pogłębianie <input type="checkbox" id="P14">
+			</div>
+			<div class="pktP">
+				wylesienie <input type="checkbox" id="P15">
+			</div>
+			<div class="pktP">
+				hodowla ryb <input type="checkbox" id="P16">
+			</div>
+			<div class="pktP">
+				spływ materiału mulistego <input type="checkbox" id="P17">
+			</div>
+			<div class="pktP">
+				pobór wód <input type="checkbox" id="P18">
+			</div>
+			<div class="pktP">
+				elektrownia wodna <input type="checkbox" id="P19">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div style="padding: 5px;">
+			<b>Widoczne skutki antropopresji:</b></br>
+			<div class="pktP">
+				drenowanie <input type="checkbox" id="P20">
+			</div>
+			<div class="pktP">
+				wykaszanie brzegów <input type="checkbox" id="P21">
+			</div>
+			<div class="pktP">
+				usuwanie roślin z koryta <input type="checkbox" id="P22">
+			</div>
+			<div class="pktP">
+				poszerzanie <input type="checkbox" id="P23">
+			</div>
+			<div class="pktP">
+				eksploatacja rumowiska z koryta <input type="checkbox" id="P24">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div style="padding: 5px;">
+			<b>Prace renaturyzacyjne:</b></br>
+			<div class="pktP">
+				deflekory <input type="checkbox" id="P25">
+			</div>
+			<div class="pktP">
+				narzuty z głazów <input type="checkbox" id="P26">
+			</div>
+			<div class="pktP">
+				obsadzanie brzegów <input type="checkbox" id="P27">
+			</div>
+			<div class="pktP">
+				inne <input type="checkbox" id="P28">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div style="padding: 5px;">
+			<b>Zwierzęta:</b></br>
+			<div class="pktP">
+				bóbr <input type="checkbox" id="P29">
+			</div>
+			<div class="pktP">
+				wydra <input type="checkbox" id="P30">
+			</div>
+			<div class="pktP">
+				norka <input type="checkbox" id="P31">
+			</div>
+			<div class="pktP">
+				karczownik <input type="checkbox" id="P32">
+			</div>
+			<div class="pktP">
+				zimorodek <input type="checkbox" id="P33">
+			</div>
+			<div class="pktP">
+				pluszcz <input type="checkbox" id="P34">
+			</div>
+			<div class="pktP">
+				pliszka górska <input type="checkbox" id="P35">
+			</div>
+			<div class="pktP">
+				brzegówka <input type="checkbox" id="P36">
+			</div>
+			<div class="pktP">
+				czapla <input type="checkbox" id="P37">
+			</div>
+			<div class="pktP">
+				zaskroniec <input type="checkbox" id="P38">
+			</div>
+			<div class="pktP">
+				gąbki <input type="checkbox" id="P39">
+			</div>
+			<div style="clear: both"></div>
+		</div>
+		<div style="padding: 5px;">
+			<b>Inne ciekawe obserwacje:</b></br>
+			<div class="pktP">
+				dopisz, a w razie potrzeby opisz dodatkowe cechy i obserwacje.
+			</div>
+			<div class="pktP">
+				<textarea id="P40" cols="85" rows="8"></textarea>
+			</div>
+			</br>
+			</br>
+			</br>
+			</br>
+			</br>
+			</br>
+			</br>
+			</br>
+			</br>
+			</br>
+			<div style="clear: both"></div>
+		</div>
+	</div>
+	<div class="header">R. KONTROLA DOKŁADNOŚCI POMIARU</div>
+	<div id="R">
+		<div class="pktRdlugi">
+			Czy wykonałeś przynajmniej dwie fotografie, które przedstawiają ogólny charakter odcinka badawczego RHS oraz<br>
+			dodatkowe fotografie budowli piętrzących i innych dużych/średnich budowli wodnych?
+		</div>	
+		<div class="pktRkrotki">
+			<input type="checkbox" style="width: 32px; height: 32px;" id="R1">
+		</div>
+		<div style="clear: both"></div>
+		<div class="pktRdlugi">
+			Czy uzupełniłeś dane dla wszystkich 10 profili kontrolnych oraz pola w sekcji E i F?
+		</div>	
+		<div class="pktRkrotki">
+			<input type="checkbox" style="width: 32px; height: 32px;" id="R2">
+		</div>
+		<div style="clear: both"></div>
+		<div class="pktRdlugi">
+			Czy uzupełniłeś jedenastą kolumnę w sekcji G (oraz E, gdy jest to konieczne)?
+		</div>	
+		<div class="pktRkrotki">
+			<input type="checkbox" style="width: 32px; height: 32px;" id="R3">
+		</div>
+		<div style="clear: both"></div>
+		<div class="pktRdlugi">
+			Czy zanotowałeś w sekcji C liczbę bystrzy, plos, kotłów eworsyjnych i odsypów meandrowych (w tym ich brak - 0)?
+		</div>	
+		<div class="pktRkrotki">
+			<input type="checkbox" style="width: 32px; height: 32px;" id="R4">
+		</div>
+		<div style="clear: both"></div>
+		<div class="pktRdlugi">
+			Czy podałeś dokładne współrzędne dla profili kontrolnych 1, 6 i 11?
+		</div>	
+		<div class="pktRkrotki">
+			<input type="checkbox" style="width: 32px; height: 32px;" id="R5">
+		</div>
+		<div style="clear: both"></div>
+		<div class="pktRdlugi">
+			Czy zanotowałeś, gdzie znajduje się profil kontrolny nr 1 - w górę czy w dół cieku?
+		</div>	
+		<div class="pktRkrotki">
+			<input type="checkbox" style="width: 32px; height: 32px;" id="R6">
+		</div>
+		<div style="clear: both"></div>
+		<div class="pktRdlugi">
+			Czy uzupełniłeś pola dla profili kontrolnych i sprawdziłeś odpowiedzi z oznaczeniami modyfikacji koryta podanymi na<br>
+			2 stronie klucza terenowego RHS?
+		</div>	
+		<div class="pktRkrotki">
+			<input type="checkbox" style="width: 32px; height: 32px;" id="R7">
+		</div>
+		<div style="clear: both"></div>
+	</div>
+</div>
+<br>
+<div id="przyciski">
+	<div id="wynik_przyciski">
+		<input class="styled-button-8" type="submit" value="OBLICZ HMS" onclick="HMS()"/><br>
+	</div>
+	<div id="wynik_przyciski">
+		<input class="styled-button-8" type="submit" value="OBLICZ HQA" onclick="HQA()"/><br>
+	</div>
+	<div id="wynik_przyciski">
+		<input class="styled-button-8" type="submit" value="SPRAWDŹ KLASĘ JAKOŚCI" onclick="KLASA()"/><br>
+	</div>
+	<div style="clear: both"></div>
+</div>
+<div class="container" style="margin-top:20px;">
+	<div id="div_wynikowy">
+		<div id="wynik_podsumowanie">
+			<div style="text-align: center; font-family: arial; font-size: 20px;">PODSUMOWANIE</div><br>
+			<b>Wykonujący badania:</b><br>
+			<div id="wyk_bad">---</div><br>
+			<b>Nazwa rzeki:</b><br>
+			<div id="naz_rze">---</div><br>
+			<b>Nazwa i numer odcinka badawczego:</b><br>
+			<div id="naz_odc_bad">---</div><br>
+			<b>Wynik wskaźnika HMS:</b>
+			<div id="HMS_WYNIK">---</div><br>
+			<b>Wynik wskaźnika HQA:</b>
+			<div id="HQA_WYNIK">---</div><br>
+			<b>Klasa jakości hydromorfologicznej:</b>
+			<div id="KLASA_WYNIK">---</div>
+		</div>
+		<div id="wynik_tabela">
+			<table id="tabela_wynikowa" border="3" bordercolor="lightgrey" cellpadding="10">
+				<tr>
+					<td rowspan="2">Przedziały punktowe wskaźnika<br>HMS (klasy)</td><td colspan="5">
+					Przedziały punktowe wskaźnika HQA (klasy)</td>
+				</tr>
+				<tr>
+					<td>109 – 135<br>(1)</td><td>82 – 108<br>(2)</td><td>55 – 81<br>(3)</td>
+					<td>28 – 54<br>(4)</td><td>0 – 27<br>(5)</td>
+				</tr>
+				<tr>
+					<td>0 – 2 (1)</td><td id="komorka1" bgcolor="#11D0FF">I</td><td id="komorka2" bgcolor="#00CC00">II</td>
+					<td id="komorka3" bgcolor="#00CC00">II</td><td id="komorka4" bgcolor="FFDF06">III</td><td id="komorka5" bgcolor="FFDF06">III</td>
+				</tr>
+				<tr>
+					<td>3 – 8 (2)</td><td id="komorka6" bgcolor="#00CC00">II</td><td id="komorka7" bgcolor="#00CC00">II</td>
+					<td id="komorka8" bgcolor="FFDF06">III</td><td id="komorka9" bgcolor="FFDF06">III</td><td id="komorka10" bgcolor="FF961E">IV</td>
+				</tr>
+				<tr>
+					<td>9 – 20 (3)</td><td id="komorka11" bgcolor="FFDF06">III</td><td id="komorka12" bgcolor="FFDF06">III</td>
+					<td id="komorka13" bgcolor="FFDF06">III</td><td id="komorka14" bgcolor="FF961E">IV</td><td id="komorka15" bgcolor="FF961E">IV</td>
+				</tr>
+				<tr>
+					<td>21 – 44 (4)</td><td id="komorka16" bgcolor="FFDF06">III</td><td id="komorka17" bgcolor="FF961E">IV</td>
+					<td id="komorka18" bgcolor="FF961E">IV</td><td id="komorka19" bgcolor="FF961E">IV</td><td id="komorka20" bgcolor="FF0000">V</td>
+				</tr>
+				<tr>
+					<td>> 45 (5)</td><td id="komorka21" bgcolor="FF961E">IV</td><td id="komorka22" bgcolor="FF961E">IV</td>
+					<td id="komorka23" bgcolor="FF0000">V</td><td id="komorka24" bgcolor="FF0000">V</td><td id="komorka25" bgcolor="FF0000">V</td>
+				</tr>
+			</table>
+			<br>
+			Klasy jakości hydromorfologicznej: I – stan bardzo dobry, II – stan dobry, III – stan umiarkowany, IV – stan słaby, V – stan zły
+			<br>
+			<br>
+		</div>
+		<div style="clear: both"></div>
+	</div>
+</div>
+<br>
+<div id="przycisk_drukuj">
+	<input type=button class="styled-button-8" value="Wydrukuj" onClick="window.print()">
+</div>
+<br>
+<br>
+<br>
+</body>
+</html>
